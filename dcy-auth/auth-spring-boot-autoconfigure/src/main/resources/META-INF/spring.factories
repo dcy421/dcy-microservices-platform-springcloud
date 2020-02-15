@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.dcy.auth.spring.boot.autoconfigure.config.JwtConfig,\
+com.dcy.auth.spring.boot.autoconfigure.config.ResourceServerConfiguration

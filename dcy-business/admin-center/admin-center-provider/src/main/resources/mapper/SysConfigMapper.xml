@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.mapper.SysConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.api.model.SysConfig">
+        <id column="config_id" property="configId"/>
+        <result column="config_name" property="configName"/>
+        <result column="config_key" property="configKey"/>
+        <result column="config_value" property="configValue"/>
+        <result column="config_type" property="configType"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        config_id, config_name, config_key, config_value, config_type, create_by, create_date, update_by, update_date,
+        del_flag, remark
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        config.config_id AS configId,config.config_name AS configName,config.config_key AS configKey,config.config_value
+        AS configValue,config.config_type AS configType,config.create_by AS createBy,config.create_date AS
+        createDate,config.update_by AS updateBy,config.update_date AS updateDate,config.del_flag AS
+        delFlag,config.remark
+    </sql>
+</mapper>

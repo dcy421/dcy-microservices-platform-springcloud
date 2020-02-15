@@ -1,0 +1,38 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: auth-center
+          uri: lb://auth-center
+          predicates:
+            - Path=/auth-center/**
+          filters:
+            - GwSwaggerHeaderFilter
+            - StripPrefix=1
+        - id: admin-center
+          uri: lb://admin-center
+          predicates:
+            - Path=/admin-center/**
+          filters:
+            - GwSwaggerHeaderFilter
+            - StripPrefix=1
+        - id: file-center
+          uri: lb://file-center
+          predicates:
+            - Path=/file-center/**
+          filters:
+            - GwSwaggerHeaderFilter
+            - StripPrefix=1
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

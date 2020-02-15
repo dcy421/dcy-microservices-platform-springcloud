@@ -1,0 +1,15 @@
+server:
+  port: 8764
+
+spring:
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+  application:
+    name: monitor-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:192.168.136.170:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml

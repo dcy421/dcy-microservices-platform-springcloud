@@ -1,0 +1,17 @@
+server:
+  port: 8999
+spring:
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: admin-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:192.168.136.170:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml
+

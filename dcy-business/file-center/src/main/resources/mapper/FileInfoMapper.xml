@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.file.mapper.FileInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.file.model.FileInfo">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="is_img" property="isImg" />
+        <result column="content_type" property="contentType" />
+        <result column="size" property="size" />
+        <result column="path" property="path" />
+        <result column="url" property="url" />
+        <result column="source" property="source" />
+        <result column="create_date" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, is_img, content_type, size, path, url, source, create_date
+    </sql>
+
+</mapper>

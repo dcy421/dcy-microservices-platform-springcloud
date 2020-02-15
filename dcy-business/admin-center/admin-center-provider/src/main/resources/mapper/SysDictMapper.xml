@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.mapper.SysDictMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.api.model.SysDict">
+        <id column="dict_id" property="dictId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_ids" property="parentIds"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="dict_lable" property="dictLable"/>
+        <result column="dict_value" property="dictValue"/>
+        <result column="location" property="location"/>
+        <result column="has_children" property="hasChildren"/>
+        <result column="type" property="type"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        dict_id, parent_id, parent_ids, dict_type, dict_lable, dict_value, location, has_children, type, create_by,
+        create_date, update_by, update_date, del_flag, remark
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        dict.dict_id AS dictId,dict.parent_id AS parentId,dict.parent_ids AS parentIds,dict.dict_type AS
+        dictType,dict.dict_lable AS dictLable,dict.dict_value AS dictValue,dict.location,dict.has_children AS
+        hasChildren,dict.type,dict.create_by AS createBy,dict.create_date AS createDate,dict.update_by AS
+        updateBy,dict.update_date AS updateDate,dict.del_flag AS delFlag,dict.remark
+    </sql>
+</mapper>

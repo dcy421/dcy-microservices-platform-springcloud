@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.mapper.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.api.model.SysMenu">
+        <id column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_ids" property="parentIds"/>
+        <result column="menu_code" property="menuCode"/>
+        <result column="type" property="type"/>
+        <result column="href" property="href"/>
+        <result column="target" property="target"/>
+        <result column="icon" property="icon"/>
+        <result column="disabled_status" property="disabledStatus"/>
+        <result column="location" property="location"/>
+        <result column="has_children" property="hasChildren"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        menu_id, menu_name, parent_id, parent_ids, menu_code, type, href, target, icon, disabled_status,
+        location, has_children, create_by, create_date, update_by, update_date, del_flag, remark
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        menu.menu_id AS menuId,menu.menu_name AS menuName,menu.parent_id AS parentId,menu.parent_ids AS
+        parentIds,menu.menu_code AS menuCode,menu.type,menu.href,menu.target,menu.icon,menu.disabled_status AS
+        disabledStatus,menu.location,menu.has_children AS hasChildren,menu.create_by AS
+        createBy,menu.create_date AS createDate,menu.update_by AS updateBy,menu.update_date AS updateDate,menu.del_flag
+        AS delFlag,menu.remark
+    </sql>
+</mapper>

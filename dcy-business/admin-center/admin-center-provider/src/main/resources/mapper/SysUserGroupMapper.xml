@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.mapper.SysUserGroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.api.model.SysUserGroup">
+        <id column="user_group_id" property="userGroupId"/>
+        <result column="user_group_name" property="userGroupName"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_group_id, user_group_name, create_by, create_date, update_by, update_date, del_flag, remark
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        gr.user_group_id AS userGroupId,gr.user_group_name AS userGroupName,gr.create_by AS createBy,gr.create_date AS
+        createDate,gr.update_by AS updateBy,gr.update_date AS updateDate,gr.del_flag AS delFlag,gr.remark
+    </sql>
+    <sql id="Base_Column_List_Role_Alias">
+        role.role_id AS roleId,role.role_name AS roleName,role.role_key AS roleKey,role.role_status AS
+        roleStatus,role.create_by AS createBy,role.create_date AS createDate,role.update_by AS updateBy,role.update_date
+        AS updateDate,role.del_flag AS delFlag,role.remark
+    </sql>
+
+    <select id="getAuthRoleListByUserGroupId" resultType="com.dcy.api.model.SysRole">
+        SELECT
+        <include refid="Base_Column_List_Role_Alias"/>
+        FROM sys_user_group ug
+        INNER JOIN sys_user_group_role ugr on ug.user_group_id = ugr.user_group_id
+        INNER JOIN sys_role role on ugr.role_id = role.role_id
+        WHERE role.del_flag = 0 and ug.user_group_id = #{userGroupId}
+    </select>
+</mapper>

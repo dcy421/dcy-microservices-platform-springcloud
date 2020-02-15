@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.mapper.SysUserInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.api.model.SysUserInfo">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="user_type" property="userType"/>
+        <result column="email" property="email"/>
+        <result column="phone_number" property="phoneNumber"/>
+        <result column="sex" property="sex"/>
+        <result column="avatar_path" property="avatarPath"/>
+        <result column="user_status" property="userStatus"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, username, password, nick_name, user_type, email, phone_number, sex, avatar_path, user_status,
+        create_by, create_date, update_by, update_date, del_flag, remark
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        user.user_id AS userId,user.username AS username,user.password,user.nick_name AS nickName,user.user_type AS
+        userType,user.email,user.phone_number AS phoneNumber,user.sex,user.avatar_path AS avatarPath,user.user_status AS
+        userStatus,user.create_by AS createBy,user.create_date AS createDate,user.update_by AS updateBy,user.update_date
+        AS updateDate,user.del_flag AS delFlag,user.remark
+    </sql>
+    <sql id="Base_Column_List_Role_Alias">
+        role.role_id AS roleId,role.role_name AS roleName,role.role_key AS roleKey,role.role_status AS
+        roleStatus,role.create_by AS createBy,role.create_date AS createDate,role.update_by AS updateBy,role.update_date
+        AS updateDate,role.del_flag AS delFlag,role.remark
+    </sql>
+    <sql id="Base_Column_List_Group_Alias">
+        gr.user_group_id AS userGroupId,gr.user_group_name AS userGroupName,gr.create_by AS createBy,gr.create_date AS
+        createDate,gr.update_by AS updateBy,gr.update_date AS updateDate,gr.del_flag AS delFlag,gr.remark
+    </sql>
+
+
+    <select id="getAuthRoleListByUserId" resultType="com.dcy.api.model.SysRole">
+        SELECT
+        <include refid="Base_Column_List_Role_Alias"/>
+        FROM sys_user_info user
+        INNER JOIN sys_user_role ur on user.user_id = ur.user_id
+        INNER JOIN sys_role role on ur.role_id = role.role_id
+        WHERE role.del_flag = 0 and user.user_id = #{userId}
+
+    </select>
+    <select id="getAuthGroupListByUserId" resultType="com.dcy.api.model.SysUserGroup">
+        SELECT
+        <include refid="Base_Column_List_Group_Alias"/>
+        FROM
+        sys_user_info user
+        INNER JOIN sys_user_info_group uig ON user.user_id = uig.user_id
+        INNER JOIN sys_user_group gr ON uig.user_group_id = gr.user_group_id
+        WHERE gr.del_flag = 0 and user.user_id = #{userId}
+    </select>
+
+    <select id="getAuthRoleSetByUserId" resultType="java.lang.String">
+        SELECT
+        DISTINCT role.role_key AS roleKey
+        FROM sys_user_info user
+        INNER JOIN sys_user_role ur on user.user_id = ur.user_id
+        INNER JOIN sys_role role on ur.role_id = role.role_id
+        WHERE role.del_flag = 0 and role.role_status = '0' and user.user_id = #{userId}
+        UNION ALL
+        SELECT
+        DISTINCT role.role_key AS roleKey
+        FROM sys_user_group ug
+        INNER JOIN sys_user_group_role ugr on ug.user_group_id = ugr.user_group_id
+        INNER JOIN sys_role role on ugr.role_id = role.role_id
+        WHERE role.del_flag = 0 and role.role_status = '0' and ug.user_group_id in
+		(SELECT
+        DISTINCT gr.user_group_id AS userGroupId
+        FROM
+        sys_user_info	user
+        INNER JOIN sys_user_info_group uig ON user.user_id = uig.user_id
+        INNER JOIN sys_user_group gr ON uig.user_group_id = gr.user_group_id
+        WHERE gr.del_flag = 0 and user.user_id = #{userId})
+    </select>
+    <select id="getPermissionListByUserId" resultType="java.lang.String">
+        -- 查询菜单code
+        SELECT menu_code FROM sys_menu menu INNER JOIN sys_power_menu pm on menu.menu_id = pm.menu_id
+        WHERE pow_id in (
+
+        -- 查询权限id
+        SELECT power.pow_id FROM sys_power power INNER JOIN sys_role_power rp on power.pow_id = rp.pow_id
+        WHERE rp.role_id in (
+        -- 查询角色id
+        SELECT
+                DISTINCT role.role_id AS role_id
+                FROM sys_user_info user
+                INNER JOIN sys_user_role ur on user.user_id = ur.user_id
+                INNER JOIN sys_role role on ur.role_id = role.role_id
+                WHERE role.del_flag = 0 and role.role_status = '0' and user.user_id = #{userId}
+                UNION ALL
+                SELECT
+                DISTINCT role.role_id AS role_id
+                FROM sys_user_group ug
+                INNER JOIN sys_user_group_role ugr on ug.user_group_id = ugr.user_group_id
+                INNER JOIN sys_role role on ugr.role_id = role.role_id
+                WHERE role.del_flag = 0 and role.role_status = '0' and ug.user_group_id in
+                (SELECT
+                DISTINCT gr.user_group_id AS userGroupId
+                FROM
+                sys_user_info	user
+                INNER JOIN sys_user_info_group uig ON user.user_id = uig.user_id
+                INNER JOIN sys_user_group gr ON uig.user_group_id = gr.user_group_id
+                WHERE gr.del_flag = 0 and user.user_id = #{userId})
+
+                        ) and pow_type = '1'  and power.del_flag = 0 ) and disabled_status = '0' and menu.del_flag = 0
+    </select>
+    <select id="getModuleListByUserId" resultType="java.lang.String">
+        -- 查询菜单code
+        SELECT module_code FROM sys_module_resources module INNER JOIN sys_power_module pm on module.module_id = pm.module_id
+        WHERE pm.pow_id in (
+
+        -- 查询权限id
+        SELECT power.pow_id FROM sys_power power INNER JOIN sys_role_power rp on power.pow_id = rp.pow_id
+        WHERE rp.role_id in (
+        -- 查询角色id
+        SELECT
+                DISTINCT role.role_id AS role_id
+                FROM sys_user_info user
+                INNER JOIN sys_user_role ur on user.user_id = ur.user_id
+                INNER JOIN sys_role role on ur.role_id = role.role_id
+                WHERE role.del_flag = 0 and role.role_status = '0' and user.user_id = #{userId}
+                UNION ALL
+                SELECT
+                DISTINCT role.role_id AS role_id
+                FROM sys_user_group ug
+                INNER JOIN sys_user_group_role ugr on ug.user_group_id = ugr.user_group_id
+                INNER JOIN sys_role role on ugr.role_id = role.role_id
+                WHERE role.del_flag = 0 and role.role_status = '0' and ug.user_group_id in
+                (SELECT
+                DISTINCT gr.user_group_id AS userGroupId
+                FROM
+                sys_user_info	user
+                INNER JOIN sys_user_info_group uig ON user.user_id = uig.user_id
+                INNER JOIN sys_user_group gr ON uig.user_group_id = gr.user_group_id
+                WHERE gr.del_flag = 0 and user.user_id = #{userId})
+
+                        ) and pow_type = '0' and power.del_flag = 0 ) and module_code IS NOT null and module_status = '0' and module.del_flag = 0
+    </select>
+</mapper>

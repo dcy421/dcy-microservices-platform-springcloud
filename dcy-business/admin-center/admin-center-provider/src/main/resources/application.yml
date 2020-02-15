@@ -1,0 +1,95 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_URL:192.168.189.150}:${MYSQL_HOST:3306}/${MYSQL_DB:canteen-server}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:root}
+    druid:
+      # 连接池的配置信息
+      # 初始化大小，最小，最大
+      initial-size: 5
+      min-idle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT x
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat,wall,log4j
+      connectionProperties: druid.stat.mergeSql\=true;druid.stat.slowSqlMillis\=5000
+      web-stat-filter:
+        enabled: true
+        url-pattern: "/*"
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      stat-view-servlet:
+        url-pattern: "/druid/*"
+        reset-enable: false
+        login-username: admin
+        login-password: 123456
+  redis:
+    host: ${REDIS_HOST:192.168.136.170}
+    port: ${REDIS_PORT:6379}
+
+#MyBatis-plus
+mybatis-plus:
+  # mapper-locations: classpath:com/dcy/modules/*/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  # type-aliases-package: com.dcy.modules.*.model
+  type-aliases-package: com.dcy.api.model
+  global-config:
+    db-config:
+      id-type: id_worker_str
+  configuration:
+    #不加这个查询数据为空时，字段将被隐藏
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: null
+
+
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-uri: http://192.168.190.132:9001/auth-center/oauth/token_key
+    client:
+      client-id: dcy_admin_client
+      client-secret: 123456
+      access-token-uri: http://192.168.190.132:9001/auth-center/oauth/token
+      grant-type: password
+      scope: dcy_admin
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+api:
+  boot:
+    swagger:
+      title: Swagger2 文档
+      description: "restful Api"
+      version: "1.0"
+      license: ""
+      license-url: ""
+      contact:
+        name: dcy
+        website: ""
+        email: ""
+      authorization:
+        name: oauth2.0 认证头信息
+
+ignored: |
+  /login,/v2/*,/webjars/**,/**/favicon.ico,/swagger-resources/**,/actuator/**,/druid/**,/dict/getDictListByType,
+  /dict/getDictTreeListByGroupType,/swagger-ui.html,/user/getUserInfoByUsername,/user/getAllPermissionByUserId,
+  /module/getModuleByUserId

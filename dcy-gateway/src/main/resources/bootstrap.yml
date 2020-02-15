@@ -1,0 +1,16 @@
+server:
+  port: 9001
+spring:
+  profiles:
+    active: ${SPRING_PROFILE:dev}
+  application:
+    name: gateway-center
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_SERVER_ADDR:192.168.136.170:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yaml

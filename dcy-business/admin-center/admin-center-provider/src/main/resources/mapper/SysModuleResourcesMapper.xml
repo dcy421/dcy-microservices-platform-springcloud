@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dcy.mapper.SysModuleResourcesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.dcy.api.model.SysModuleResources">
+        <id column="module_id" property="moduleId"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="parent_ids" property="parentIds"/>
+        <result column="module_name" property="moduleName"/>
+        <result column="module_code" property="moduleCode"/>
+        <result column="module_path" property="modulePath"/>
+        <result column="http_method" property="httpMethod"/>
+        <result column="module_status" property="moduleStatus"/>
+        <result column="type" property="type"/>
+        <result column="sort" property="sort"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_by" property="updateBy"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        module_id, parent_id, parent_ids, module_name, module_code, module_path, http_method, module_status, type, sort,
+        create_by, create_date, update_by, update_date, del_flag, remark
+    </sql>
+
+    <!-- 通用查询结果列 别名 -->
+    <sql id="Base_Column_List_Alias">
+        module.module_id AS moduleId,module.parent_id AS parentId,module.parent_ids AS parentIds,module.module_name AS
+        moduleName,module.module_code AS moduleCode,module.module_path AS modulePath,module.http_method AS
+        httpMethod,module.module_status AS moduleStatus,module.type,module.sort,module.create_by AS
+        createBy,module.create_date AS createDate,module.update_by AS updateBy,module.update_date AS
+        updateDate,module.del_flag AS delFlag,module.remark
+    </sql>
+
+    <select id="getModuleByUserId" resultType="java.util.Map">
+        SELECT
+        <include refid="Base_Column_List_Alias"/>,role.role_key as roleKey
+        FROM sys_role role
+        INNER JOIN sys_role_power rp on role.role_id = rp.role_id
+        INNER JOIN sys_power power on rp.pow_id= power.pow_id
+        INNER JOIN sys_power_module pm on power.pow_id = pm.pow_id
+        INNER JOIN sys_module_resources module on pm.module_id = module.module_id
+        where role.del_flag = 0 and role.role_key in
+        (
+        SELECT
+        DISTINCT role.role_key AS roleKey
+        FROM sys_user_info user
+        INNER JOIN sys_user_role ur on user.user_id = ur.user_id
+        INNER JOIN sys_role role on ur.role_id = role.role_id
+        WHERE role.del_flag = 0 and role.role_status = '0' and user.user_id = #{userId}
+        UNION
+        SELECT
+        DISTINCT role.role_key AS roleKey
+        FROM sys_user_group ug
+        INNER JOIN sys_user_group_role ugr on ug.user_group_id = ugr.user_group_id
+        INNER JOIN sys_role role on ugr.role_id = role.role_id
+        WHERE role.del_flag = 0 and role.role_status = '0' and ug.user_group_id in
+        (
+        SELECT
+        DISTINCT gr.user_group_id AS userGroupId
+        FROM
+        sys_user_info user
+        INNER JOIN sys_user_info_group uig ON user.user_id = uig.user_id
+        INNER JOIN sys_user_group gr ON uig.user_group_id = gr.user_group_id
+        WHERE gr.del_flag = 0 and user.user_id = #{userId} )
+
+        )
+        ORDER BY module.sort
+    </select>
+</mapper>

@@ -1,0 +1,51 @@
+version: '2'
+services:
+  monitor-center:
+    build:
+      context: dcy-business/dcy-monitor
+      dockerfile: Dockerfile
+    image: dcy-monitor:v1
+    ports:
+      - "8764:8764"
+  auth-center:
+    build:
+      context: dcy-auth/dcy-auth-server
+      dockerfile: Dockerfile
+    image: dcy-auth-server:v1
+    ports:
+      - "7777:7777"
+    environment:
+      - ADMIN_CLIENT_URL=http://dcy-monitor:8764
+      - MYSQL_URL=192.168.190.132
+    depends_on:
+      - dcy-monitor
+  gateway-center:
+    build:
+      context: dcy-api-gateway
+      dockerfile: Dockerfile
+    image: dcy-api-gateway:v1
+    ports:
+      - "9001:9001"
+    environment:
+      - ADMIN_CLIENT_URL=http://dcy-monitor:8764
+    depends_on:
+      - dcy-monitor
+  admin-center:
+    build:
+      context: dcy-business/dcy-modules/admin-center/admin-center-provider
+      dockerfile: Dockerfile
+    image: dcy-admin-center:v1
+    ports:
+      - "8999:8999"
+    environment:
+      - ADMIN_CLIENT_URL=http://dcy-monitor:8764
+      - MYSQL_URL=192.168.190.132
+      - AUTH_SERVER_ADDR=dcy-api-gateway:9001
+    depends_on:
+      - dcy-monitor
+      - dcy-auth-server
+  #  前端项目
+#  dcy-mic-vue:
+#    image: mic-vue
+#    ports:
+#      - "80:80"
