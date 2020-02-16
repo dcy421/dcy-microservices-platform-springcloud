@@ -1,4 +1,7 @@
 spring:
+  redis:
+    host: ${REDIS_HOST:192.168.136.170}
+    port: ${REDIS_PORT:6379}
   cloud:
     gateway:
       discovery:
@@ -27,6 +30,9 @@ spring:
             - GwSwaggerHeaderFilter
             - StripPrefix=1
 
+
+ignored: |
+  /auth-center/**,/admin-center/**
 
 management:
   endpoints:

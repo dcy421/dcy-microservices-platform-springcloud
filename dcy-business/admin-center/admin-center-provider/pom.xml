@@ -41,11 +41,6 @@
             <artifactId>spring-security-oauth2-autoconfigure</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.dcy</groupId>
-            <artifactId>auth-spring-boot-autoconfigure</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- oauth2 end -->
 
         <dependency>

@@ -8,6 +8,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 /**
  * @author dcy
+ * -javaagent:E:\Installation\skywalking\apache-skywalking-apm-6.6.0\agent\skywalking-agent.jar
+ * -Dskywalking.agent.service_name=auth-center
  */
 @SpringBootApplication
 @EnableDiscoveryClient
