@@ -7,6 +7,13 @@ spring:
       discovery:
         locator:
           enabled: true
+      default-filters:
+      - name: RequestRateLimiter
+        args:
+          redis-rate-limiter.replenishRate: 1  #令牌桶每秒填充平均速率
+          redis-rate-limiter.burstCapacity: 3  #令牌桶总容量
+          rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
+          key-resolver: "#{@remoteAddressKeyResolver}" #SPEL表达式去的对应的bean
       routes:
         - id: auth-center
           uri: lb://auth-center

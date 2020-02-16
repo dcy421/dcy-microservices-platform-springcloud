@@ -84,7 +84,7 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return -50;
+        return -2;
     }
 
     /**
@@ -109,7 +109,8 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
      */
     private Mono<Void> getVoidMono(ServerWebExchange serverWebExchange, ResponseData<String> responseData) {
         // 没有权限
-        serverWebExchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+        serverWebExchange.getResponse().setStatusCode(HttpStatus.OK);
+        serverWebExchange.getResponse().getHeaders().add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
         DataBuffer buffer = serverWebExchange.getResponse().bufferFactory().wrap(JSON.toJSONBytes(responseData));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
     }
