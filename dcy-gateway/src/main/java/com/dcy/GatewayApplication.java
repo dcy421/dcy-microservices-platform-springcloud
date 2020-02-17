@@ -8,6 +8,14 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 
 /**
  * @author dcy
+ * -javaagent:E:\Installation\skywalking\apache-skywalking-apm-6.6.0\agent\skywalking-agent.jar
+ * -Dskywalking.agent.service_name=gateway-center
+ * -Dproject.name=gateway-center
+ * -Dcsp.sentinel.dashboard.server=127.0.0.1:8555
+ * -Dcsp.sentinel.api.port=8720
+ * -Dcsp.sentinel.app.type=1
+ *
+ * sentinel启动java -Dserver.port=8555 -Dcsp.sentinel.dashboard.server=localhost:8555 -Dproject.name=sentinel-dashboard -jar sentinel-dashboard-1.7.1.jar
  */
 @SpringBootApplication
 @EnableDiscoveryClient

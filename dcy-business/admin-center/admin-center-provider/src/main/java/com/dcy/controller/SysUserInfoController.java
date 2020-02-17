@@ -2,8 +2,10 @@ package com.dcy.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dcy.api.dto.SysUserInfoGroupDTO;
 import com.dcy.api.dto.SysUserInfoRoleDTO;
+import com.dcy.api.dto.UserSearchDTO;
 import com.dcy.api.model.SysUserInfo;
 import com.dcy.api.service.SysUserInfoRemoteService;
 import com.dcy.common.model.ResponseData;
@@ -38,6 +40,11 @@ public class SysUserInfoController extends BaseController<ISysUserInfoService, S
         // 赋值加密密码
         sysUserInfo.setPassword("{bcrypt}" + passwordEncoder.encode(sysUserInfo.getPassword()));
         return super.save(sysUserInfo);
+    }
+
+    @GetMapping(value = "/pageListByDto")
+    public ResponseData<IPage<SysUserInfo>> pageListByDto(UserSearchDTO userSearchDTO) {
+        return ResponseData.success(baseService.pageListByDto(userSearchDTO));
     }
 
     @ApiOperation(value = "根据用户名获取用户信息", notes = "根据用户名获取用户信息")

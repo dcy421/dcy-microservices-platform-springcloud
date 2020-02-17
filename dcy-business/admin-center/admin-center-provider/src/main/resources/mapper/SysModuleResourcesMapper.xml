@@ -13,7 +13,7 @@
         <result column="http_method" property="httpMethod"/>
         <result column="module_status" property="moduleStatus"/>
         <result column="type" property="type"/>
-        <result column="sort" property="sort"/>
+        <result column="module_sort" property="moduleSort"/>
         <result column="create_by" property="createBy"/>
         <result column="create_date" property="createDate"/>
         <result column="update_by" property="updateBy"/>
@@ -24,7 +24,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        module_id, parent_id, parent_ids, module_name, module_code, module_path, http_method, module_status, type, sort,
+        module_id, parent_id, parent_ids, module_name, module_code, module_path, http_method, module_status, type, moduleSort,
         create_by, create_date, update_by, update_date, del_flag, remark
     </sql>
 
@@ -32,7 +32,7 @@
     <sql id="Base_Column_List_Alias">
         module.module_id AS moduleId,module.parent_id AS parentId,module.parent_ids AS parentIds,module.module_name AS
         moduleName,module.module_code AS moduleCode,module.module_path AS modulePath,module.http_method AS
-        httpMethod,module.module_status AS moduleStatus,module.type,module.sort,module.create_by AS
+        httpMethod,module.module_status AS moduleStatus,module.type,module.module_sort AS moduleSort,module.create_by AS
         createBy,module.create_date AS createDate,module.update_by AS updateBy,module.update_date AS
         updateDate,module.del_flag AS delFlag,module.remark
     </sql>
@@ -70,6 +70,6 @@
         WHERE gr.del_flag = 0 and user.user_id = #{userId} )
 
         )
-        ORDER BY module.sort
+        ORDER BY module.module_sort
     </select>
 </mapper>

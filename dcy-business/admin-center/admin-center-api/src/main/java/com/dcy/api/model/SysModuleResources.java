@@ -57,7 +57,7 @@ public class SysModuleResources extends BaseModel {
     private String type;
 
     @ApiModelProperty(value = "排序")
-    private BigDecimal sort;
+    private BigDecimal moduleSort;
 
     @TableField(exist = false)
     private List<SysModuleResources> children;
@@ -83,6 +83,6 @@ public class SysModuleResources extends BaseModel {
 
     public static final String TYPE = "type";
 
-    public static final String SORT = "sort";
+    public static final String MODULE_SORT = "module_sort";
 
 }
