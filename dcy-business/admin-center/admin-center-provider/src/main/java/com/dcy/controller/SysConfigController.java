@@ -31,7 +31,7 @@ public class SysConfigController extends BaseController<ISysConfigService, SysCo
             @ApiImplicitParam(name = "key", value = "参数键名", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getValueByKey")
-    public ResponseData getValueByKey(String key) {
+    public ResponseData<String> getValueByKey(String key) {
         return ResponseData.success(baseService.getValueByKey(key));
     }
 

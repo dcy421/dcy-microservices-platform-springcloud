@@ -1,7 +1,6 @@
 package com.dcy.file.controller;
 
 import com.dcy.common.model.ResponseData;
-import com.dcy.db.base.model.PageHelper;
 import com.dcy.file.model.FileInfo;
 import com.dcy.file.service.IFileInfoService;
 import io.swagger.annotations.Api;
@@ -27,12 +26,11 @@ public class FileController {
 
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageHelper", value = "分页信息", dataType = "PageHelper", paramType = "query"),
             @ApiImplicitParam(name = "fileInfo", value = "查询对象", dataType = "FileInfo", paramType = "query")
     })
     @GetMapping(value = "/page")
-    public ResponseData page(PageHelper<FileInfo> pageHelper, FileInfo fileInfo) {
-        return ResponseData.success(iFileInfoService.pageList(pageHelper, fileInfo));
+    public ResponseData page(FileInfo fileInfo) {
+        return ResponseData.success(iFileInfoService.pageList(fileInfo));
     }
 
 

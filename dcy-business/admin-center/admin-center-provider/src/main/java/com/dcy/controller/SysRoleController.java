@@ -1,6 +1,7 @@
 package com.dcy.controller;
 
 import com.dcy.api.dto.SysRolePowerDTO;
+import com.dcy.api.model.SysPower;
 import com.dcy.api.model.SysRole;
 import com.dcy.common.model.ResponseData;
 import com.dcy.service.ISysRoleService;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -29,7 +32,7 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRole> 
             @ApiImplicitParam(name = "roleId", value = "角色Id", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getAuthPowerListByRoleId")
-    public ResponseData getAuthPowerListByRoleId(String roleId) {
+    public ResponseData<List<SysPower>> getAuthPowerListByRoleId(String roleId) {
         return ResponseData.success(baseService.getAuthPowerListByRoleId(roleId));
     }
 
@@ -39,7 +42,7 @@ public class SysRoleController extends BaseController<ISysRoleService, SysRole> 
             @ApiImplicitParam(paramType = "body", dataType = "SysUserInfoRoleDTO", name = "sysUserInfoRoleDTO", value = "对象参数", required = true)
     })
     @PostMapping(value = "/saveAuthPower")
-    public ResponseData saveAuthPower(@RequestBody SysRolePowerDTO sysRolePowerDTO) {
+    public ResponseData<Boolean> saveAuthPower(@RequestBody SysRolePowerDTO sysRolePowerDTO) {
         return ResponseData.success(baseService.saveAuthPower(sysRolePowerDTO));
     }
 }

@@ -33,7 +33,7 @@ public class SysPowerController extends BaseController<ISysPowerService, SysPowe
             @ApiImplicitParam(paramType = "body", dataType = "SysPowerModuleDTO", name = "sysPowerModuleDTO", value = "对象参数", required = true)
     })
     @PostMapping(value = "/saveAuthModule")
-    public ResponseData saveAuthModule(@RequestBody SysPowerModuleDTO sysPowerModuleDTO) {
+    public ResponseData<Boolean> saveAuthModule(@RequestBody SysPowerModuleDTO sysPowerModuleDTO) {
         return ResponseData.success(baseService.saveAuthModule(sysPowerModuleDTO));
     }
 
@@ -42,7 +42,7 @@ public class SysPowerController extends BaseController<ISysPowerService, SysPowe
             @ApiImplicitParam(paramType = "body", dataType = "SysPowerMenuDTO", name = "sysPowerMenuDTO", value = "对象参数", required = true)
     })
     @PostMapping(value = "/saveAuthMenu")
-    public ResponseData saveAuthMenu(@RequestBody SysPowerMenuDTO sysPowerMenuDTO) {
+    public ResponseData<Boolean> saveAuthMenu(@RequestBody SysPowerMenuDTO sysPowerMenuDTO) {
         return ResponseData.success(baseService.saveAuthMenu(sysPowerMenuDTO));
     }
 }

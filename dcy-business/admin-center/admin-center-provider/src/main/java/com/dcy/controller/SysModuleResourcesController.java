@@ -1,5 +1,6 @@
 package com.dcy.controller;
 
+import com.dcy.api.dto.TreeData;
 import com.dcy.api.model.SysModuleResources;
 import com.dcy.api.service.SysModuleResourcesRemoteService;
 import com.dcy.common.model.ResponseData;
@@ -32,7 +33,7 @@ public class SysModuleResourcesController extends BaseController<ISysModuleResou
 
     @ApiOperation(value = "获取tree-table列表数据", notes = "获取tree-table列表数据")
     @GetMapping(value = "/getModuleTreeTableList")
-    public ResponseData getModuleTreeTableList() {
+    public ResponseData<List<SysModuleResources>> getModuleTreeTableList() {
         return ResponseData.success(baseService.getModuleTreeTableList());
     }
 
@@ -41,7 +42,7 @@ public class SysModuleResourcesController extends BaseController<ISysModuleResou
             @ApiImplicitParam(name = "id", value = "权限id", dataType = "powerId", paramType = "query")
     })
     @GetMapping(value = "/getModuleTreeListByPowerId")
-    public ResponseData getModuleTreeListByPowerId(String powerId) {
+    public ResponseData<List<TreeData>> getModuleTreeListByPowerId(String powerId) {
         return ResponseData.success(baseService.getModuleTreeListByPowerId(powerId));
     }
 

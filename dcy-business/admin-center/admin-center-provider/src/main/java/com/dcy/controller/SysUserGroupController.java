@@ -1,6 +1,7 @@
 package com.dcy.controller;
 
 import com.dcy.api.dto.SysUserGroupRoleDTO;
+import com.dcy.api.model.SysRole;
 import com.dcy.api.model.SysUserGroup;
 import com.dcy.common.model.ResponseData;
 import com.dcy.service.ISysUserGroupService;
@@ -10,6 +11,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,7 +33,7 @@ public class SysUserGroupController extends BaseController<ISysUserGroupService,
             @ApiImplicitParam(name = "userGroupId", value = "用户组Id", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getAuthRoleListByUserGroupId")
-    public ResponseData getAuthRoleListByUserGroupId(String userGroupId) {
+    public ResponseData<List<SysRole>> getAuthRoleListByUserGroupId(String userGroupId) {
         return ResponseData.success(baseService.getAuthRoleListByUserGroupId(userGroupId));
     }
 
@@ -40,7 +43,7 @@ public class SysUserGroupController extends BaseController<ISysUserGroupService,
             @ApiImplicitParam(paramType = "body", dataType = "SysUserGroupRoleDTO", name = "sysUserGroupRoleDTO", value = "对象参数", required = true)
     })
     @PostMapping(value = "/saveAuthRole")
-    public ResponseData saveAuthRole(@RequestBody SysUserGroupRoleDTO sysUserGroupRoleDTO) {
+    public ResponseData<Boolean> saveAuthRole(@RequestBody SysUserGroupRoleDTO sysUserGroupRoleDTO) {
         return ResponseData.success(baseService.saveAuthRole(sysUserGroupRoleDTO));
     }
 }

@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dcy.api.dto.SysUserInfoGroupDTO;
 import com.dcy.api.dto.SysUserInfoRoleDTO;
 import com.dcy.api.dto.UserSearchDTO;
+import com.dcy.api.model.SysRole;
+import com.dcy.api.model.SysUserGroup;
 import com.dcy.api.model.SysUserInfo;
 import com.dcy.api.service.SysUserInfoRemoteService;
 import com.dcy.common.model.ResponseData;
@@ -18,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -78,7 +81,7 @@ public class SysUserInfoController extends BaseController<ISysUserInfoService, S
             @ApiImplicitParam(paramType = "body", dataType = "SysUserInfo", name = "sysUserInfo", value = "对象参数", required = true)
     })
     @PostMapping(value = "/resetPassword")
-    public ResponseData resetPassword(@RequestBody SysUserInfo sysUserInfo) {
+    public ResponseData<Boolean> resetPassword(@RequestBody SysUserInfo sysUserInfo) {
         sysUserInfo.setPassword("{bcrypt}" + passwordEncoder.encode(sysUserInfo.getPassword()));
         return ResponseData.success(baseService.updateById(sysUserInfo));
     }
@@ -88,7 +91,7 @@ public class SysUserInfoController extends BaseController<ISysUserInfoService, S
             @ApiImplicitParam(name = "userId", value = "用户Id", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getAuthRoleListByUserId")
-    public ResponseData getAuthRoleListByUserId(String userId) {
+    public ResponseData<List<SysRole>> getAuthRoleListByUserId(String userId) {
         return ResponseData.success(baseService.getAuthRoleListByUserId(userId));
     }
 
@@ -98,7 +101,7 @@ public class SysUserInfoController extends BaseController<ISysUserInfoService, S
             @ApiImplicitParam(paramType = "body", dataType = "SysUserInfoRoleDTO", name = "sysUserInfoRoleDTO", value = "对象参数", required = true)
     })
     @PostMapping(value = "/saveAuthRole")
-    public ResponseData saveAuthRole(@RequestBody SysUserInfoRoleDTO sysUserInfoRoleDTO) {
+    public ResponseData<Boolean> saveAuthRole(@RequestBody SysUserInfoRoleDTO sysUserInfoRoleDTO) {
         return ResponseData.success(baseService.saveAuthRole(sysUserInfoRoleDTO));
     }
 
@@ -107,7 +110,7 @@ public class SysUserInfoController extends BaseController<ISysUserInfoService, S
             @ApiImplicitParam(name = "userId", value = "用户Id", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getAuthGroupListByUserId")
-    public ResponseData getAuthGroupListByUserId(String userId) {
+    public ResponseData<List<SysUserGroup>> getAuthGroupListByUserId(String userId) {
         return ResponseData.success(baseService.getAuthGroupListByUserId(userId));
     }
 
@@ -117,7 +120,7 @@ public class SysUserInfoController extends BaseController<ISysUserInfoService, S
             @ApiImplicitParam(paramType = "body", dataType = "SysUserInfoGroupDTO", name = "sysUserInfoGroupDTO", value = "对象参数", required = true)
     })
     @PostMapping(value = "/saveAuthGroup")
-    public ResponseData resetPassword(@RequestBody SysUserInfoGroupDTO sysUserInfoGroupDTO) {
+    public ResponseData<Boolean> resetPassword(@RequestBody SysUserInfoGroupDTO sysUserInfoGroupDTO) {
         return ResponseData.success(baseService.saveAuthGroup(sysUserInfoGroupDTO));
     }
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * <p>
  * 字典类型表 前端控制器
@@ -31,7 +33,7 @@ public class SysDictController extends BaseController<ISysDictService, SysDict> 
             @ApiImplicitParam(name = "type", value = "type字段", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getDictListByType")
-    public ResponseData getDictListByType(String type) {
+    public ResponseData<List<SysDict>> getDictListByType(String type) {
         return ResponseData.success(baseService.list(new LambdaQueryWrapper<SysDict>().eq(SysDict::getType, type).orderByAsc(SysDict::getLocation)));
     }
 
@@ -41,7 +43,7 @@ public class SysDictController extends BaseController<ISysDictService, SysDict> 
             @ApiImplicitParam(name = "groupType", value = "dict_type字段", dataType = "String", paramType = "query", required = true)
     })
     @GetMapping(value = "/getDictTreeListByGroupType")
-    public ResponseData getDictTreeListByGroupType(String groupType) {
+    public ResponseData<List<SysDict>> getDictTreeListByGroupType(String groupType) {
         return ResponseData.success(baseService.getDictTreeListByGroupType(groupType));
     }
 }

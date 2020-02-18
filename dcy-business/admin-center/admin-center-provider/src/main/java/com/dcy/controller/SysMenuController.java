@@ -1,5 +1,6 @@
 package com.dcy.controller;
 
+import com.dcy.api.dto.TreeData;
 import com.dcy.api.model.SysMenu;
 import com.dcy.common.model.ResponseData;
 import com.dcy.service.ISysMenuService;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>
@@ -27,7 +30,7 @@ public class SysMenuController extends BaseController<ISysMenuService, SysMenu> 
 
     @ApiOperation(value = "获取tree-table列表数据", notes = "获取tree-table列表数据")
     @GetMapping(value = "/getMenuTreeTableList")
-    public ResponseData getMenuTreeTableList() {
+    public ResponseData<List<SysMenu>> getMenuTreeTableList() {
         return ResponseData.success(baseService.getMenuTreeTableList());
     }
 
@@ -37,7 +40,7 @@ public class SysMenuController extends BaseController<ISysMenuService, SysMenu> 
             @ApiImplicitParam(name = "id", value = "权限id", dataType = "powerId", paramType = "query")
     })
     @GetMapping(value = "/getMenuTreeListByPowerId")
-    public ResponseData getMenuTreeListByPowerId(String powerId) {
+    public ResponseData<List<TreeData>> getMenuTreeListByPowerId(String powerId) {
         return ResponseData.success(baseService.getMenuTreeListByPowerId(powerId));
     }
 }
