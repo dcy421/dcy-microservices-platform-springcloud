@@ -49,6 +49,21 @@ feign:
   sentinel:
     enabled: true
 
+#设置最大超时时间
+ribbon:
+  eager-load:
+    enabled: true
+  ServerListRefreshInterval: 10  #刷新服务列表源的间隔时间
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  ReadTimeout: 90000
+  ConnectTimeout: 90000
+  OkToRetryOnAllOperations: true #对所有操作请求都进行重试
+  MaxAutoRetries: 1 #对当前实例的重试次数
+  MaxAutoRetriesNextServer: 1 #切换服务器实例的重试次数
+
 #设置最大容错超时时间
 hystrix:
   threadpool:
