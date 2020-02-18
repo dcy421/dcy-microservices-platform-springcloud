@@ -19,6 +19,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -62,7 +67,7 @@
 
         <dependency>
             <groupId>com.dcy</groupId>
-            <artifactId>admin-center-client</artifactId>
+            <artifactId>admin-center-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

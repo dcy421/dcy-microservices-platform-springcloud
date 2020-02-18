@@ -4,6 +4,7 @@ import com.dcy.api.InterfaceService;
 import com.dcy.api.service.SysModuleResourcesRemoteService;
 import com.dcy.common.model.ResponseData;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Map;
 @FeignClient(name = InterfaceService.SERVICE_NAME, fallback = SysModuleResourcesClientService.SysModuleResourcesClientServiceFallback.class)
 public interface SysModuleResourcesClientService extends SysModuleResourcesRemoteService {
 
+    @Component
     class SysModuleResourcesClientServiceFallback implements SysModuleResourcesClientService{
 
         @Override

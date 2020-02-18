@@ -5,6 +5,7 @@ import com.dcy.api.model.SysUserInfo;
 import com.dcy.api.service.SysUserInfoRemoteService;
 import com.dcy.common.model.ResponseData;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
@@ -18,6 +19,7 @@ public interface SysUserInfoClientService extends SysUserInfoRemoteService {
 
 
 
+    @Component
     class SysUserInfoServiceFallback implements SysUserInfoClientService {
 
 

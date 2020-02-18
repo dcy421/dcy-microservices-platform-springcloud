@@ -35,6 +35,15 @@ spring:
   redis:
     host: ${REDIS_HOST:192.168.136.170}
     port: ${REDIS_PORT:6379}
+  cloud:
+    sentinel:
+      transport:
+        dashboard: localhost:8555
+      eager: true
+
+feign:
+  sentinel:
+    enabled: true
 
 #MyBatis-plus
 mybatis-plus:
