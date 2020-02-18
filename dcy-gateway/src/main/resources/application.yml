@@ -49,9 +49,31 @@ feign:
   sentinel:
     enabled: true
 
+#设置最大容错超时时间
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maximumSize: 5000
+      allowMaximumSizeToDivergeFromCoreSize: true
+      maxQueueSize: -1
+  command:
+    default:
+      circuitBreaker:
+        foreOpen: false
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 90000
 
 ignored: |
-  /auth-center/**,/admin-center/**
+  /**/actuator/** , /**/actuator/**/** ,
+  /v2/api-docs/**, /swagger-ui.html, /swagger-resources/**, /webjars/** ,
+  /**/v2/api-docs/**, /**/swagger-ui.html, /**/swagger-resources/**, /**/webjars/**,
+  /**/druid/**, /**/favicon.ico, /**/prometheus,
+  /auth-center/oauth/**,/auth-center/getUserInfo,/admin-center/**
 
 management:
   endpoints:
