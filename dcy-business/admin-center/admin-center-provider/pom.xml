@@ -22,30 +22,13 @@
             <artifactId>spring-cloud-redis-stater</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.minbox.framework</groupId>
-            <artifactId>api-boot-starter-swagger</artifactId>
+            <groupId>com.dcy</groupId>
+            <artifactId>spring-cloud-swagger-stater</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
-        <!-- oauth2 begin -->
-        <!--<dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.security.oauth.boot</groupId>
-                    <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.oauth.boot</groupId>
-            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
-            <version>${spring-boot.version}</version>
-        </dependency>-->
-        <!-- oauth2 end -->
 
         <dependency>
             <groupId>com.dcy</groupId>
