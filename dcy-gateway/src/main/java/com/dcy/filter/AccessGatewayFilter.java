@@ -1,5 +1,7 @@
 package com.dcy.filter;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -24,6 +26,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -63,6 +66,9 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
             authorization = authorization.replaceFirst(CommonConstant.BEARER_TYPE, "");
             // 解析token
             DefaultClaims body = (DefaultClaims) Jwts.parser().setSigningKey(CommonConstant.SIGNING_KEY.getBytes()).parseClaimsJws(authorization).getBody();
+            if (System.currentTimeMillis() > body.getExpiration().getTime()) {
+                return getVoidMono(exchange, ResponseData.error("token已经过期了"));
+            }
             // 获取用户对象
             Map<String, Object> map = body.get(CommonConstant.USER_INFO, Map.class);
             Map<String, Object> sysUserInfo = (Map<String, Object>) map.get("sysUserInfo");
@@ -115,6 +121,5 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
         DataBuffer buffer = serverWebExchange.getResponse().bufferFactory().wrap(JSON.toJSONBytes(responseData));
         return serverWebExchange.getResponse().writeWith(Flux.just(buffer));
     }
-
 
 }
