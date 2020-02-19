@@ -1,7 +1,5 @@
 package com.dcy.filter;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
@@ -26,7 +24,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -71,10 +68,9 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
             }
             // 获取用户对象
             Map<String, Object> map = body.get(CommonConstant.USER_INFO, Map.class);
-            Map<String, Object> sysUserInfo = (Map<String, Object>) map.get("sysUserInfo");
-            String userId = MapUtil.getStr(sysUserInfo, "userId");
+            String userId = MapUtil.getStr(map, "userId");
             BaseContextHandler.setUserID(userId);
-            BaseContextHandler.setUsername(MapUtil.getStr(sysUserInfo, "username"));
+            BaseContextHandler.setUsername(MapUtil.getStr(map, "username"));
             // 根据用户id 获取权限
             List<Map<String, Object>> moduleResourcesList = (List<Map<String, Object>>) redisTemplate.opsForValue().get(CommonConstant.REDIS_USER_MODULE_LIST_KEY + userId);
             for (Map<String, Object> moduleResources : moduleResourcesList) {

@@ -1,18 +1,20 @@
 package com.dcy.security.auth.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.dcy.api.dto.AuthUser;
 import com.dcy.api.model.SysUserInfo;
 import com.dcy.common.constant.CommonConstant;
 import com.dcy.common.model.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.Map;
 
 /**
  * @Author：dcy
@@ -23,7 +25,36 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @Autowired
+    private TokenEndpoint tokenEndpoint;
+
+    @Autowired
     private TokenStore tokenStore;
+
+    /**
+     * 重写 /auth/token 方法
+     *
+     * @param principal
+     * @param parameters
+     * @return
+     * @throws HttpRequestMethodNotSupportedException
+     */
+    @GetMapping("/oauth/token")
+    public ResponseData<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+        return ResponseData.success(tokenEndpoint.getAccessToken(principal, parameters).getBody());
+    }
+
+    /**
+     * 重写 /auth/token 方法
+     *
+     * @param principal
+     * @param parameters
+     * @return
+     * @throws HttpRequestMethodNotSupportedException
+     */
+    @PostMapping("/oauth/token")
+    public ResponseData<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+        return ResponseData.success((tokenEndpoint.postAccessToken(principal, parameters).getBody()));
+    }
 
     /**
      * 暴露Remote Token Services接口
@@ -36,17 +67,17 @@ public class AuthController {
     public ResponseData<SysUserInfo> getUser() {
         String tokenValue = ((OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getTokenValue();
         Object userInfoMap = tokenStore.readAccessToken(tokenValue).getAdditionalInformation().get(CommonConstant.USER_INFO);
-        return ResponseData.success(JSON.parseObject(JSON.toJSONString(userInfoMap), AuthUser.class).getSysUserInfo());
+        return ResponseData.success(JSON.parseObject(JSON.toJSONString(userInfoMap), SysUserInfo.class));
     }
 
     /**
      * 获取OAuth用户信息
      *
-     * @param user
+     * @param principal
      * @return
      */
     @RequestMapping(value = "/getOAuthDetails", method = RequestMethod.GET)
-    public OAuth2Authentication getOAuthDetails(OAuth2Authentication user) {
-        return user;
+    public Principal getOAuthDetails(Principal principal) {
+        return principal;
     }
 }
