@@ -18,8 +18,8 @@
             <artifactId>spring-cloud-alibaba-nacos</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.minbox.framework</groupId>
-            <artifactId>api-boot-starter-swagger</artifactId>
+            <groupId>com.dcy</groupId>
+            <artifactId>spring-cloud-swagger-stater</artifactId>
         </dependency>
         <dependency>
             <groupId>com.dcy</groupId>

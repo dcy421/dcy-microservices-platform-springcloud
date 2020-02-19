@@ -30,5 +30,5 @@ public interface ISysMenuService extends BaseService<SysMenu> {
      * @param powerId
      * @return
      */
-    List<TreeData> getMenuTreeListByPowerId(String powerId);
+    List<String> getMenuTreeListByPowerId(String powerId);
 }

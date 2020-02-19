@@ -46,6 +46,20 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDictMapper, SysDict> 
     }
 
 
+    @Override
+    public List<SysDict> getDictTreeTableList() {
+        // 获取所有字典项
+        List<SysDict> dictList = sysDictMapper.selectList(new LambdaQueryWrapper<SysDict>().orderByAsc(SysDict::getLocation));
+        List<SysDict> treeDataList = new ArrayList<>();
+        dictList.stream().forEach(sysDict -> {
+            if (CommonConstant.DEFAULT_PARENT_VAL.equalsIgnoreCase(sysDict.getParentId())) {
+                treeDataList.add(sysDict);
+            }
+        });
+        recursionTreeTableChildren(treeDataList, dictList);
+        return treeDataList;
+    }
+
     private void recursionTreeTableChildren(List<SysDict> treeDataList, List<SysDict> dictList) {
         for (SysDict treeData : treeDataList) {
             List<SysDict> childrenList = new ArrayList<>();

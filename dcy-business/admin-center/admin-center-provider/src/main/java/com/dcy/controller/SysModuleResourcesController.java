@@ -42,7 +42,7 @@ public class SysModuleResourcesController extends BaseController<ISysModuleResou
             @ApiImplicitParam(name = "id", value = "权限id", dataType = "powerId", paramType = "query")
     })
     @GetMapping(value = "/getModuleTreeListByPowerId")
-    public ResponseData<List<TreeData>> getModuleTreeListByPowerId(String powerId) {
+    public ResponseData<List<String>> getModuleTreeListByPowerId(String powerId) {
         return ResponseData.success(baseService.getModuleTreeListByPowerId(powerId));
     }
 

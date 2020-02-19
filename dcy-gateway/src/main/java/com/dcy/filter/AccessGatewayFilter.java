@@ -4,7 +4,6 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.dcy.common.constant.CommonConstant;
-import com.dcy.common.context.BaseContextHandler;
 import com.dcy.common.model.ResponseData;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.impl.DefaultClaims;
@@ -64,19 +63,22 @@ public class AccessGatewayFilter implements GlobalFilter, Ordered {
             // 解析token
             DefaultClaims body = (DefaultClaims) Jwts.parser().setSigningKey(CommonConstant.SIGNING_KEY.getBytes()).parseClaimsJws(authorization).getBody();
             if (System.currentTimeMillis() > body.getExpiration().getTime()) {
-                return getVoidMono(exchange, ResponseData.error("token已经过期了"));
+                return getVoidMono(exchange, ResponseData.error(3000,"token已经过期了"));
             }
             // 获取用户对象
             Map<String, Object> map = body.get(CommonConstant.USER_INFO, Map.class);
             String userId = MapUtil.getStr(map, "userId");
-            BaseContextHandler.setUserID(userId);
-            BaseContextHandler.setUsername(MapUtil.getStr(map, "username"));
+            String username = MapUtil.getStr(map, "username");
             // 根据用户id 获取权限
             List<Map<String, Object>> moduleResourcesList = (List<Map<String, Object>>) redisTemplate.opsForValue().get(CommonConstant.REDIS_USER_MODULE_LIST_KEY + userId);
             for (Map<String, Object> moduleResources : moduleResourcesList) {
                 // 判断是否符合url 和 method
                 if (antPathMatcher.match(MapUtil.getStr(moduleResources, "modulePath"), url) && request.getMethod().matches(MapUtil.getStr(moduleResources, "httpMethod"))) {
-                    return chain.filter(exchange.mutate().request(build).build());
+                    ServerHttpRequest newRequest = request.mutate().headers(httpHeaders -> {
+                        httpHeaders.add(CommonConstant.CONTEXT_KEY_USER_ID, userId);
+                        httpHeaders.add(CommonConstant.CONTEXT_KEY_USERNAME, username);
+                    }).build();
+                    return chain.filter(exchange.mutate().request(newRequest).build());
                 }
             }
             return getVoidMono(exchange, ResponseData.error("没有权限"));

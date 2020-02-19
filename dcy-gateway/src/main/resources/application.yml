@@ -37,6 +37,10 @@ spring:
           filters:
             - GwSwaggerHeaderFilter
             - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/defaultfallback'
         - id: file-center
           uri: lb://file-center
           predicates:
@@ -44,6 +48,10 @@ spring:
           filters:
             - GwSwaggerHeaderFilter
             - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/defaultfallback'
 
 feign:
   sentinel:
@@ -88,7 +96,9 @@ ignored: |
   /v2/api-docs/**, /swagger-ui.html, /swagger-resources/**, /webjars/** ,
   /**/v2/api-docs/**, /**/swagger-ui.html, /**/swagger-resources/**, /**/webjars/**,
   /**/druid/**, /**/favicon.ico, /**/prometheus,
-  /auth-center/oauth/**,/auth-center/getUserInfo,/auth-center/getOAuthDetails,/admin-center/**
+  /auth-center/oauth/**,/auth-center/getUserInfo,/auth-center/getOAuthDetails,
+  /admin-center/dict/getDictListByType,/admin-center/dict/getDictTreeListByGroupType,
+  /file-center/file/**
 
 management:
   endpoints:

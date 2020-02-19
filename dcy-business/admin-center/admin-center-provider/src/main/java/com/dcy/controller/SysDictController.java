@@ -28,6 +28,12 @@ import java.util.List;
 @Api(value = "SysDictController", tags = {"字典操作接口"})
 public class SysDictController extends BaseController<ISysDictService, SysDict> {
 
+    @ApiOperation(value = "获取tree-table列表数据", notes = "获取tree-table列表数据")
+    @GetMapping(value = "/getDictTreeTableList")
+    public ResponseData<List<SysDict>> getDictTreeTableList() {
+        return ResponseData.success(baseService.getDictTreeTableList());
+    }
+
     @ApiOperation(value = "根据类型查询字典项", notes = "根据类型查询字典项（type字段）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "type字段", dataType = "String", paramType = "query", required = true)

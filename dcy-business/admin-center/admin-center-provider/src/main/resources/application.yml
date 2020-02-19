@@ -2,7 +2,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_URL:192.168.189.150}:${MYSQL_HOST:3306}/${MYSQL_DB:canteen-server}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_URL:127.0.0.1}:${MYSQL_HOST:3306}/${MYSQL_DB:dcy-microservices-platform}?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     druid:
@@ -62,18 +62,6 @@ mybatis-plus:
     jdbc-type-for-null: null
 
 
-security:
-  oauth2:
-    resource:
-      jwt:
-        key-uri: http://192.168.190.132:9001/auth-center/oauth/token_key
-    client:
-      client-id: dcy_admin_client
-      client-secret: 123456
-      access-token-uri: http://192.168.190.132:9001/auth-center/oauth/token
-      grant-type: password
-      scope: dcy_admin
-
 management:
   endpoints:
     web:
@@ -97,8 +85,3 @@ api:
         email: ""
       authorization:
         name: oauth2.0 认证头信息
-
-ignored: |
-  /login,/v2/*,/webjars/**,/**/favicon.ico,/swagger-resources/**,/actuator/**,/druid/**,/dict/getDictListByType,
-  /dict/getDictTreeListByGroupType,/swagger-ui.html,/user/getUserInfoByUsername,/user/getAllPermissionByUserId,
-  /module/getModuleByUserId

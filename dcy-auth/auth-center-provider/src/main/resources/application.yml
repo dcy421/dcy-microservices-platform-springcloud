@@ -3,7 +3,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_URL:192.168.189.150}:${MYSQL_HOST:3306}/${MYSQL_DB:canteen-server}?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_URL:127.0.0.1}:${MYSQL_HOST:3306}/${MYSQL_DB:dcy-microservices-platform}?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=UTC
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
   redis:
@@ -28,3 +28,18 @@ management:
   endpoint:
     health:
       show-details: ALWAYS
+
+api:
+  boot:
+    swagger:
+      title: Swagger2 文档
+      description: "restful Api"
+      version: "1.0"
+      license: ""
+      license-url: ""
+      contact:
+        name: dcy
+        website: ""
+        email: ""
+      authorization:
+        name: oauth2.0 认证头信息

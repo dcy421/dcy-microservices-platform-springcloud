@@ -23,4 +23,11 @@ public interface ISysDictService extends BaseService<SysDict> {
      * @return
      */
     List<SysDict> getDictTreeListByGroupType(String groupType);
+
+    /**
+     * 获取tree-table 数据
+     *
+     * @return
+     */
+    List<SysDict> getDictTreeTableList();
 }

@@ -40,7 +40,7 @@ public class SysMenuController extends BaseController<ISysMenuService, SysMenu> 
             @ApiImplicitParam(name = "id", value = "权限id", dataType = "powerId", paramType = "query")
     })
     @GetMapping(value = "/getMenuTreeListByPowerId")
-    public ResponseData<List<TreeData>> getMenuTreeListByPowerId(String powerId) {
+    public ResponseData<List<String>> getMenuTreeListByPowerId(String powerId) {
         return ResponseData.success(baseService.getMenuTreeListByPowerId(powerId));
     }
 }

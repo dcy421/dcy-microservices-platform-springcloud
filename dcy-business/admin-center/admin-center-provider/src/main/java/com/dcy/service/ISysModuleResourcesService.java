@@ -31,7 +31,7 @@ public interface ISysModuleResourcesService extends BaseService<SysModuleResourc
      *
      * @return
      */
-    List<TreeData> getModuleTreeListByPowerId(String powerId);
+    List<String> getModuleTreeListByPowerId(String powerId);
 
     /**
      * 根据用户id 查询对应资源
