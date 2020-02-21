@@ -1,4 +1,4 @@
-package com.dcy.controller;
+package com.dcy.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.dcy.api.model.SysDict;

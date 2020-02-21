@@ -1,6 +1,5 @@
-package com.dcy.controller;
+package com.dcy.api;
 
-import com.dcy.api.dto.TreeData;
 import com.dcy.api.model.SysModuleResources;
 import com.dcy.api.service.SysModuleResourcesRemoteService;
 import com.dcy.common.model.ResponseData;

@@ -1,4 +1,4 @@
-package com.dcy.controller;
+package com.dcy.api;
 
 import com.dcy.api.model.SysConfig;
 import com.dcy.common.model.ResponseData;

@@ -1,4 +1,4 @@
-package com.dcy.rest;
+package com.dcy.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

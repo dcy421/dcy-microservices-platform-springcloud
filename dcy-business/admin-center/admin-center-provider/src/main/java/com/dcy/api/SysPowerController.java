@@ -1,4 +1,4 @@
-package com.dcy.controller;
+package com.dcy.api;
 
 import com.dcy.api.dto.SysPowerMenuDTO;
 import com.dcy.api.dto.SysPowerModuleDTO;
