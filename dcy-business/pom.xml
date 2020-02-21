@@ -15,6 +15,7 @@
         <module>admin-center</module>
         <module>file-center</module>
         <module>monitor-center</module>
+        <module>workflow-center</module>
     </modules>
 
 

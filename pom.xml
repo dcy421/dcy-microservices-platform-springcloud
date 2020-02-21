@@ -28,6 +28,7 @@
 
         <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
         <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
+        <flowable.version>6.4.1</flowable.version>
     </properties>
 
 

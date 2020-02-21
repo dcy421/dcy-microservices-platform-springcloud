@@ -1,0 +1,42 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dcy-microservices-platform-flowable?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true
+    username: root
+    password: root
+
+
+flowable:
+  async-executor-activate: false
+  database-schema-update: false
+  history-level: full
+  common:
+    app:
+      idm-url: http://localhost:${server.port}/
+  modeler:
+    app:
+      deployment-api-url: http://localhost:${server.port}/
+
+mybatis:
+  mapper-locations: classpath:/META-INF/modeler-mybatis-mappings/*.xml
+  configuration:
+    call-setters-on-nulls: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    jdbc-type-for-null: null
+  configuration-properties:
+    blobType: BLOB
+    boolValue: TRUE
+    prefix:
+
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
