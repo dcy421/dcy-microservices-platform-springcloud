@@ -15,7 +15,6 @@ import java.util.Map;
  */
 @Data
 @Accessors(chain = true)
-@ApiModel(value = "ProcessInstanceDTO对象", description = "流程定义查询提交对象")
 public class ProcessInstanceDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,7 +28,7 @@ public class ProcessInstanceDTO implements Serializable {
 
 
     @ApiModelProperty(value = "流程变量")
-    private Map<String, Object> processVariables;
+    private Map<String, Object> variables;
 
 
     @ApiModelProperty(value = "设置发起人")

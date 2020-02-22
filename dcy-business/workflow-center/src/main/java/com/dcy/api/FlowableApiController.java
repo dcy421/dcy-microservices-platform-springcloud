@@ -60,7 +60,7 @@ public class FlowableApiController {
         // 设置发起人
         identityService.setAuthenticatedUserId(processInstanceDTO.getUserId());
         // 根据流程 ID 启动流程
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceDTO.getProcessDefinitionKey(), processInstanceDTO.getBusinessKey(), processInstanceDTO.getProcessVariables());
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceDTO.getProcessDefinitionKey(), processInstanceDTO.getBusinessKey(), processInstanceDTO.getVariables());
         log.info("流程启动成功：" + processInstance.getId() + " " + new Date());
         return ResponseData.success(new ProcessInstanceVo(processInstance));
     }

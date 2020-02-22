@@ -15,7 +15,6 @@ import java.util.Map;
  */
 @Data
 @Accessors(chain = true)
-@ApiModel(value = "TaskDTO对象", description = "流程完成提交对象")
 public class TaskDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
