@@ -1,5 +1,6 @@
 package com.dcy.file.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.dcy.common.model.ResponseData;
 import com.dcy.file.model.FileInfo;
 import com.dcy.file.service.IFileInfoService;
@@ -29,7 +30,7 @@ public class FileController {
             @ApiImplicitParam(name = "fileInfo", value = "查询对象", dataType = "FileInfo", paramType = "query")
     })
     @GetMapping(value = "/page")
-    public ResponseData page(FileInfo fileInfo) {
+    public ResponseData<IPage<FileInfo>> page(FileInfo fileInfo) {
         return ResponseData.success(iFileInfoService.pageList(fileInfo));
     }
 
@@ -42,8 +43,9 @@ public class FileController {
      * @return
      * @throws Exception
      */
+    @ApiOperation(value = "文件上传", notes = "文件上传")
     @PostMapping("/upload")
-    public ResponseData upload(@RequestParam("file") MultipartFile file) throws Exception {
+    public ResponseData<FileInfo> upload(@RequestParam("file") MultipartFile file) throws Exception {
         return ResponseData.success(iFileInfoService.upload(file));
     }
 
@@ -57,7 +59,7 @@ public class FileController {
             @ApiImplicitParam(name = "id", value = "文件id", dataType = "String", paramType = "query")
     })
     @PostMapping("/delete")
-    public ResponseData delete(String id) {
+    public ResponseData<String> delete(String id) {
         iFileInfoService.deleteFile(id);
         return ResponseData.success();
     }

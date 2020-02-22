@@ -5,6 +5,10 @@ import com.dcy.api.model.SysUserInfo;
 import com.dcy.api.service.SysUserInfoRemoteService;
 import com.dcy.common.constant.CommonConstant;
 import com.dcy.common.model.ResponseData;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -23,6 +27,7 @@ import java.util.Map;
  * @Date: 2020-02-14 13:32
  */
 @RestController
+@Api(value = "AuthController", tags = {"鉴权操作接口"})
 public class AuthController {
 
     @Autowired
@@ -41,6 +46,7 @@ public class AuthController {
      * @return
      * @throws HttpRequestMethodNotSupportedException
      */
+    @ApiOperation(value = "重写 /auth/token 方法", notes = "重写 /auth/token 方法")
     @GetMapping("/oauth/token")
     public ResponseData<OAuth2AccessToken> getAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         return ResponseData.success(tokenEndpoint.getAccessToken(principal, parameters).getBody());
@@ -54,6 +60,7 @@ public class AuthController {
      * @return
      * @throws HttpRequestMethodNotSupportedException
      */
+    @ApiOperation(value = "重写 /auth/token 方法", notes = "重写 /auth/token 方法")
     @PostMapping("/oauth/token")
     public ResponseData<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         return ResponseData.success((tokenEndpoint.postAccessToken(principal, parameters).getBody()));
@@ -66,6 +73,7 @@ public class AuthController {
      *
      * @return
      */
+    @ApiOperation(value = "获取用户信息", notes = "获取用户信息")
     @RequestMapping(value = "/getUserInfo", method = RequestMethod.GET)
     public ResponseData<SysUserInfo> getUser() {
         String tokenValue = ((OAuth2AuthenticationDetails) SecurityContextHolder.getContext().getAuthentication().getDetails()).getTokenValue();
@@ -79,6 +87,7 @@ public class AuthController {
      * @param principal
      * @return
      */
+    @ApiOperation(value = "获取OAuth用户信息", notes = "获取OAuth用户信息")
     @RequestMapping(value = "/getOAuthDetails", method = RequestMethod.GET)
     public Principal getOAuthDetails(Principal principal) {
         return principal;

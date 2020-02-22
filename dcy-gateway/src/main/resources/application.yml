@@ -52,6 +52,23 @@ spring:
               args:
                 name: default
                 fallbackUri: 'forward:/defaultfallback'
+        - id: workflow-center
+          uri: lb://workflow-center
+          predicates:
+            - Path=/workflow-center/**
+          filters:
+            - GwSwaggerHeaderFilter
+            - StripPrefix=1
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/defaultfallback'
+
+dcy:
+  gateway:
+    dynamic-route:
+      enabled: true
+      data-type: nacos
 
 feign:
   sentinel:
@@ -98,7 +115,8 @@ ignored: |
   /**/druid/**, /**/favicon.ico, /**/prometheus,
   /auth-center/oauth/**,/auth-center/getUserInfo,/auth-center/getOAuthDetails,
   /admin-center/dict/getDictListByType,/admin-center/dict/getDictTreeListByGroupType,
-  /file-center/file/**
+  /file-center/file/**,
+  /workflow-center/**
 
 management:
   endpoints:
