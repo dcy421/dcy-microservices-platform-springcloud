@@ -1,7 +1,12 @@
 package com.dcy.api;
 
 import com.alibaba.fastjson.JSON;
+import com.dcy.common.model.ResponseData;
 import com.dcy.entity.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.flowable.engine.HistoryService;
@@ -26,6 +31,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/flowable/history/api")
+@Api(value = "HistoryApiController", tags = {"任务历史操作接口"})
 public class HistoryApiController {
 
     public static final Logger logger = LogManager.getLogger(HistoryApiController.class);
@@ -36,27 +42,23 @@ public class HistoryApiController {
     @Autowired
     private HistoryService historyService;
 
-    /**
-     * 流程实例历史
-     *
-     * @return
-     */
+
+    @ApiOperation(value = "流程实例历史", notes = "流程实例历史")
     @GetMapping(value = "/getFlowInfoHistory")
-    public String getFlowInfoHistory() {
+    public ResponseData<List<HistoricProcessInstanceVo>> getFlowInfoHistory() {
         List<HistoricProcessInstance> historicProcessInstanceList = historyService.createHistoricProcessInstanceQuery().finished().orderByProcessInstanceEndTime().desc().list();
         List<HistoricProcessInstanceVo> list = new ArrayList<>();
         historicProcessInstanceList.forEach(historicProcessInstance -> list.add(new HistoricProcessInstanceVo(historicProcessInstance)));
-        return JSON.toJSONString(list);
+        return ResponseData.success(list);
     }
 
-    /**
-     * 根据流程实例ID，对流程任务历史进行查询
-     *
-     * @param processInstanceId
-     * @return
-     */
+
+    @ApiOperation(value = "根据流程实例ID获取流程任务历", notes = "根据流程实例ID获取流程任务历")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "processInstanceId", value = "流程实例ID", dataType = "String", paramType = "path", required = true)
+    })
     @GetMapping(value = "/getHistoricProcessInstanceTask/{processInstanceId}")
-    public String getHistoricProcessInstanceTask(@PathVariable(value = "processInstanceId") String processInstanceId) {
+    public ResponseData<List<HistoricActivityInstanceVo>> getHistoricProcessInstanceTask(@PathVariable(value = "processInstanceId") String processInstanceId) {
         // 获取活动节点，用户任务节点部分
         List<HistoricActivityInstance> historicActivityList = historyService.createHistoricActivityInstanceQuery().processInstanceId(processInstanceId).activityType("userTask").orderByHistoricActivityInstanceStartTime().asc().list();
         List<HistoricActivityInstanceVo> list = new ArrayList<>();
@@ -72,17 +74,16 @@ public class HistoryApiController {
             historicTaskInstanceVo.setComment(commentVoList);
             list.add(historicTaskInstanceVo);
         });
-        return JSON.toJSONString(list);
+        return ResponseData.success(list);
     }
 
-    /**
-     * 根据任务ID，对流程任务历史进行查询
-     *
-     * @param taskId
-     * @return
-     */
+
+    @ApiOperation(value = "根据任务ID获取流程任务历史", notes = "根据任务ID获取流程任务历史")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "taskId", value = "任务ID", dataType = "String", paramType = "path", required = true)
+    })
     @GetMapping(value = "/getHistoricFlowTask/{taskId}")
-    public String getHistoricFlowTask(@PathVariable(value = "taskId") String taskId) {
+    public ResponseData<List<HistoricActivityInstanceVo>> getHistoricFlowTask(@PathVariable(value = "taskId") String taskId) {
         // 获取任务节点信息
         HistoricTaskInstance historicTaskInstance = historyService.createHistoricTaskInstanceQuery().taskId(taskId).singleResult();
         // 获取活动节点，用户任务节点部分
@@ -100,7 +101,7 @@ public class HistoryApiController {
             historicTaskInstanceVo.setComment(commentVoList);
             list.add(historicTaskInstanceVo);
         });
-        return JSON.toJSONString(list);
+        return ResponseData.success(list);
     }
 
     /**
@@ -195,4 +196,3 @@ public class HistoryApiController {
         return JSON.toJSONString(list);
     }
 }
-

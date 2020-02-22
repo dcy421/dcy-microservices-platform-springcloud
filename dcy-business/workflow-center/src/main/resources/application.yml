@@ -30,7 +30,20 @@ mybatis:
     prefix:
 
 
-
+api:
+  boot:
+    swagger:
+      title: Swagger2 文档
+      description: "restful Api"
+      version: "1.0"
+      license: ""
+      license-url: ""
+      contact:
+        name: dcy
+        website: ""
+        email: ""
+      authorization:
+        name: oauth2.0 认证头信息
 
 management:
   endpoints:

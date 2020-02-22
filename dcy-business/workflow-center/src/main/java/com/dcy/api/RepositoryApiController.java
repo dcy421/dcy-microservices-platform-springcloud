@@ -2,7 +2,10 @@ package com.dcy.api;
 
 import com.dcy.common.model.ResponseData;
 import com.dcy.entity.ModelRepresentationVo;
-import com.dcy.entity.ProcessDefinitionVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +16,6 @@ import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.UserTask;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.ProcessDefinition;
-import org.flowable.ui.common.model.BaseRestActionRepresentation;
 import org.flowable.ui.modeler.domain.Model;
 import org.flowable.ui.modeler.model.ModelRepresentation;
 import org.flowable.ui.modeler.rest.app.ModelBpmnResource;
@@ -36,6 +38,7 @@ import java.util.*;
  **/
 @RestController
 @RequestMapping("/flowable/repository/api")
+@Api(value = "HistoryApiController", tags = {"部署及定义操作接口"})
 public class RepositoryApiController {
 
     public static final Logger logger = LogManager.getLogger(RepositoryApiController.class);
@@ -55,36 +58,12 @@ public class RepositoryApiController {
     @Autowired
     private RepositoryService repositoryService;
 
-    /**
-     * 流程模型版本回滚
-     *
-     * @param modelId        模型ID
-     * @param modelHistoryId 历史版本ID
-     * @return
-     */
-    @GetMapping(value = "/changeModelHistoryVersion/{modelId}/{version}/history/{modelHistoryId}/{historyVersion}")
-    public ResponseData<String> changeModelHistoryVersion(@PathVariable(value = "modelId") String modelId, @PathVariable(value = "modelHistoryId") String modelHistoryId,
-                                                          @PathVariable(value = "version") String version, @PathVariable(value = "historyVersion") String historyVersion) {
-        BaseRestActionRepresentation baseRestActionRepresentation = new BaseRestActionRepresentation();
-        baseRestActionRepresentation.setAction("useAsNewVersion");
-        baseRestActionRepresentation.setComment("该版本为版本" + version + "回滚到版本" + historyVersion);
-        try {
-            modelHistoryResource.executeProcessModelHistoryAction(modelId, modelHistoryId, baseRestActionRepresentation);
-        } catch (Exception e) {
-            return ResponseData.error("版本回滚失败，请重试");
-        }
-        return ResponseData.success("版本回滚成功");
-    }
 
-    /**
-     * 下载 Bpmn20.xml
-     *
-     * @param response
-     * @param modelId
-     * @return
-     * @throws IOException
-     */
-    @PutMapping(value = "/getProcessModelBpmn20Xml/{modelId}")
+    @ApiOperation(value = "下载 Bpmn20.xml", notes = "下载 Bpmn20.xml")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "modelId", value = "model ID", dataType = "String", paramType = "path", required = true)
+    })
+    @GetMapping(value = "/getProcessModelBpmn20Xml/{modelId}")
     public void getProcessModelBpmn20Xml(HttpServletResponse response, @PathVariable(value = "modelId") String modelId) throws IOException {
         modelBpmnResource.getProcessModelBpmn20Xml(response, modelId);
     }
@@ -92,12 +71,15 @@ public class RepositoryApiController {
     /**
      * 流程部署
      *
-     * @param modelId  流程ID，来自 ACT_DE_MODEL
-     * @param tenantId 租户
+     * @param modelId 流程ID，来自 ACT_DE_MODEL
      * @return
      */
-    @GetMapping(value = "/flowDeployment/{modelId}/{tenantId}")
-    public ResponseData<String> flowDeployment(@PathVariable(value = "modelId") String modelId, @PathVariable(value = "tenantId") String tenantId) {
+    @ApiOperation(value = "流程部署", notes = "流程部署")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "modelId", value = "model ID", dataType = "String", paramType = "path", required = true)
+    })
+    @GetMapping(value = "/flowDeployment/{modelId}")
+    public ResponseData<String> flowDeployment(@PathVariable(value = "modelId") String modelId) {
         try {
             // 根据模型 ID 获取模型
             Model modelData = modelService.getModel(modelId);
@@ -120,7 +102,6 @@ public class RepositoryApiController {
             repositoryService.createDeployment()
                     .name(modelData.getName())
                     .addBytes(processName, bpmnBytes)
-                    .tenantId(tenantId)
                     .deploy();
         } catch (Exception exception) {
             // 发生异常，说明流程图配置存在问题，返回错误
@@ -130,12 +111,11 @@ public class RepositoryApiController {
         return ResponseData.success("发布成功");
     }
 
-    /**
-     * 流程定义挂起/激活
-     *
-     * @param processDefinedId
-     * @return
-     */
+
+    @ApiOperation(value = "根据流程定义id 操作挂起激活", notes = "根据流程定义id 操作挂起激活 true 挂起， false 未挂起")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "processDefinedId", value = "流程定义id", dataType = "String", paramType = "path", required = true)
+    })
     @GetMapping(value = "/processDefinedHangChange/{processDefinedId}")
     public ResponseData<String> processDefinedHangChange(@PathVariable(value = "processDefinedId") String processDefinedId) {
         // 判断挂起状态，true 挂起， false 未挂起
@@ -149,18 +129,6 @@ public class RepositoryApiController {
         return ResponseData.success();
     }
 
-    /**
-     * 更换流程定义租户
-     *
-     * @param deploymentId 部署ID
-     * @param tenantId     新租户
-     * @return
-     */
-    @PutMapping(value = "/changeProcessDefinedTenant/{deploymentId}/{tenantId}")
-    public ResponseData<String> changeProcessDefinedTenant(@PathVariable(value = "deploymentId") String deploymentId, @PathVariable(value = "tenantId") String tenantId) {
-        repositoryService.changeDeploymentTenantId(deploymentId, tenantId);
-        return ResponseData.success();
-    }
 
     /**
      * 删除流程定义
@@ -169,9 +137,14 @@ public class RepositoryApiController {
      * @param isForce      是否强制删除
      * @return
      */
-    @DeleteMapping(value = "/deleteProcessDefined/{deploymentId}")
-    public ResponseData<String> deleteProcessDefined(@PathVariable(value = "deploymentId") String deploymentId, @RequestParam(value = "isForce", defaultValue = "false") boolean isForce) {
-        if (isForce) {
+    @ApiOperation(value = "根据流程定义id 操作挂起激活", notes = "根据流程定义id 操作挂起激活 true 挂起， false 未挂起")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "processDefinedId", value = "流程定义id", dataType = "String", paramType = "path", required = true),
+            @ApiImplicitParam(name = "isForce", value = "是否级联删除，0是，1否", dataType = "String", paramType = "path", required = true, defaultValue = "1"),
+    })
+    @DeleteMapping(value = "/deleteProcessDefined/{deploymentId}/{isForce}")
+    public ResponseData<String> deleteProcessDefined(@PathVariable(value = "deploymentId") String deploymentId, @PathVariable(value = "isForce") String isForce) {
+        if ("0".equals(isForce)) {
             // 级联删除，实例，历史都会被删除
             repositoryService.deleteDeployment(deploymentId, true);
         } else {
@@ -185,28 +158,6 @@ public class RepositoryApiController {
         return ResponseData.success();
     }
 
-    /**
-     * 获取全部模型，带排序
-     *
-     * @param sort    排序：modifiedAsc，modifiedDesc，nameAsc，nameDesc
-     * @param request
-     * @return
-     */
-    @GetMapping(value = "/flowModels/{sort}")
-    public ResponseData<List<ModelRepresentationVo>> flowModels(@PathVariable(value = "sort") String sort, HttpServletRequest request) {
-        List<ModelRepresentation> modelList = (List<ModelRepresentation>) modelQueryService.getModels("processes", sort, 0, request).getData();
-        List<ModelRepresentationVo> modelsVo = new ArrayList<>();
-        modelList.forEach(model -> modelsVo.add(new ModelRepresentationVo(model)));
-        // 获取已经发布的流程信息
-        List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().latestVersion().list();
-        modelsVo.forEach(modelVo -> processDefinitionList.forEach(processDefinition -> {
-            // 匹配确认模型是否已经发布过
-            if (modelVo.getKey().equals(processDefinition.getKey())) {
-                modelVo.setIsDeployment(true);
-            }
-        }));
-        return ResponseData.success(modelsVo);
-    }
 
     /**
      * 获取全部模型
@@ -265,59 +216,6 @@ public class RepositoryApiController {
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinedId);
         return ResponseData.success(bpmnModel.getProcesses());
     }
-
-    /**
-     * 获取租户流程定义列表
-     *
-     * @param tenantList 租户列表
-     * @return
-     */
-    @PostMapping(value = "/getProcessDefinedListByTenant")
-    public ResponseData<List<ProcessDefinitionVo>> getProcessDefinedListByTenant(@RequestBody List<String> tenantList) {
-        // 返回数据集
-        List<ProcessDefinitionVo> processDefinitionVoList = new ArrayList<>();
-        // 流程定义列表
-        List<ProcessDefinition> processDefinitionList = new ArrayList<>();
-        tenantList.forEach(item -> {
-            // 获取各租户的流程定义列表
-            processDefinitionList.addAll(repositoryService.createProcessDefinitionQuery().processDefinitionTenantId(item).latestVersion().list());
-        });
-        processDefinitionList.forEach(processDefinition -> processDefinitionVoList.add(new ProcessDefinitionVo(processDefinition)));
-        return ResponseData.success(processDefinitionVoList);
-    }
-
-    /**
-     * 获取租户流程定义列表，带分页
-     * @param flowableQueryEntity
-     * @return
-     */
-    /*@PostMapping(value = "/getTenantProcessDefinedList")
-    public ResponseData<String> getTenantProcessDefinedList(@RequestBody FlowableQueryEntity flowableQueryEntity) {
-        // 页码
-        Integer page = flowableQueryEntity.getPage();
-        // 条数
-        Integer limit = flowableQueryEntity.getLimit();
-        // 租户列表
-        List<String> tenantList = flowableQueryEntity.getTenantList();
-
-        // 数据集
-        List<ProcessDefinitionVo> processDefinitionVoList = new ArrayList<>();
-        // 流程定义列表
-        List<ProcessDefinition> processDefinitionList = new ArrayList<>();
-        tenantList.forEach(item -> {
-            // 获取各租户的流程定义列表
-            processDefinitionList.addAll(repositoryService.createProcessDefinitionQuery().processDefinitionTenantId(item).latestVersion().list());
-        });
-        processDefinitionList.forEach(processDefinition -> processDefinitionVoList.add(new ProcessDefinitionVo(processDefinition)));
-        // 总条数
-        Integer total = processDefinitionVoList.size();
-        // 分页数据
-        PageEntity pageEntity = new PageEntity(page, limit, total);
-        // 进行分页后的数据
-        List<ProcessDefinitionVo> data = new PageEntity<ProcessDefinitionVo>().pageData(page, limit, total, processDefinitionVoList);
-        pageEntity.setData(data);
-        return JsonUtil.toJSON(ErrorMsg.SUCCESS.setNewData(pageEntity));
-    }*/
 
     /**
      * 获取流程定义所有用户任务节点列表
