@@ -79,12 +79,13 @@ public class FlowableApiController {
 
     @ApiOperation(value = "签收任务", notes = "签收任务")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "taskDTO", value = "任务对象", dataType = "TaskDTO", paramType = "body", required = true)
+            @ApiImplicitParam(name = "taskId", value = "任务id", dataType = "String", paramType = "path", required = true),
+            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "String", paramType = "path", required = true),
     })
-    @PostMapping("/claim")
-    public ResponseData<String> claim(@RequestBody TaskDTO taskDTO) {
+    @PostMapping("/claim/{taskId}/{userId}")
+    public ResponseData<String> claim(@PathVariable(value = "taskId") String taskId, @PathVariable(value = "userId") String userId) {
         // 签收任务
-        taskService.claim(taskDTO.getTaskId(), taskDTO.getAssignee());
+        taskService.claim(taskId, userId);
         return ResponseData.success();
     }
 
@@ -102,9 +103,9 @@ public class FlowableApiController {
             // 保存意见
             taskService.addComment(taskDTO.getTaskId(), taskDTO.getProcessInstanceId(), taskDTO.getComment());
         }
-        if (StrUtil.isNotBlank(taskDTO.getAssignee())) {
+        if (StrUtil.isNotBlank(taskDTO.getUserId())) {
             // 设置审核人
-            taskService.setAssignee(taskDTO.getTaskId(), taskDTO.getAssignee());
+            taskService.setAssignee(taskDTO.getTaskId(), taskDTO.getUserId());
         }
         // 完成任务
         taskService.complete(taskDTO.getTaskId(), taskDTO.getVariables());

@@ -22,7 +22,7 @@ public class TaskDTO {
     /**
      * 设置流程完成人
      */
-    private String assignee;
+    private String userId;
     /**
      * 任务提交意见的内容
      */
