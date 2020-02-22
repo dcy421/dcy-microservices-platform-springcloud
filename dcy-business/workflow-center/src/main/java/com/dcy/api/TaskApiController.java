@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/flowable/task/api")
-@Api(value = "HistoryApiController", tags = {"任务操作接口"})
+@Api(value = "TaskApiController", tags = {"任务操作接口"})
 public class TaskApiController {
 
     @Autowired

@@ -22,7 +22,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/flowable/runtime/api")
-@Api(value = "HistoryApiController", tags = {"流程运行操作接口"})
+@Api(value = "RuntimeApiController", tags = {"流程运行操作接口"})
 public class RuntimeApiController {
 
     @Autowired

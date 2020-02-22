@@ -38,7 +38,7 @@ import java.util.*;
  **/
 @RestController
 @RequestMapping("/flowable/repository/api")
-@Api(value = "HistoryApiController", tags = {"部署及定义操作接口"})
+@Api(value = "RepositoryApiController", tags = {"部署及定义操作接口"})
 public class RepositoryApiController {
 
     public static final Logger logger = LogManager.getLogger(RepositoryApiController.class);
