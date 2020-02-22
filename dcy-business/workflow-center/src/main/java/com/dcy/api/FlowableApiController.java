@@ -118,21 +118,21 @@ public class FlowableApiController {
             @ApiImplicitParam(name = "userId", value = "用户id", dataType = "String", paramType = "path", required = true)
     })
     @GetMapping("/getRunProInsIdList/{userId}")
-    public ResponseData<List<String>> getRunList(@PathVariable String userId) {
+    public ResponseData<List<String>> getRunList(@PathVariable(value = "userId") String userId) {
         // =============== 已签收和未签收同时查询 ===============
-        List<String> result = taskService.createTaskQuery().taskCandidateOrAssigned(userId).active().list().stream().map(TaskInfo::getProcessInstanceId).collect(Collectors.toList());
+        List<String> result = taskService.createTaskQuery().taskCandidateOrAssigned(userId).active().list().stream().map(TaskInfo::getProcessInstanceId).distinct().collect(Collectors.toList());
         return ResponseData.success(result);
     }
 
 
     @ApiOperation(value = "更具用户Id获取历史任务流程实例ids", notes = "更具用户Id获取历史任务流程实例ids")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "String", paramType = "query", required = true)
+            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "String", paramType = "path", required = true)
     })
     @GetMapping("/getHisProInsIdList/{userId}")
-    public ResponseData<List<String>> getHisList(@PathVariable String userId) {
+    public ResponseData<List<String>> getHisList(@PathVariable(value = "userId") String userId) {
         List<String> result = historyService.createHistoricTaskInstanceQuery().taskAssignee(userId).finished()
-                .orderByHistoricTaskInstanceEndTime().desc().list().stream().map(TaskInfo::getProcessInstanceId).collect(Collectors.toList());
+                .orderByHistoricTaskInstanceEndTime().desc().list().stream().map(TaskInfo::getProcessInstanceId).distinct().collect(Collectors.toList());
         return ResponseData.success(result);
     }
 

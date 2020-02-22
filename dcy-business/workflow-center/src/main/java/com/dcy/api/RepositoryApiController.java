@@ -71,7 +71,7 @@ public class RepositoryApiController {
     /**
      * 流程部署
      *
-     * @param modelId 流程ID，来自 ACT_DE_MODEL
+     * @param modelId 流程ID，来自 act_de_model 的id
      * @return
      */
     @ApiOperation(value = "流程部署", notes = "流程部署")
@@ -133,13 +133,13 @@ public class RepositoryApiController {
     /**
      * 删除流程定义
      *
-     * @param deploymentId 部署ID
+     * @param deploymentId 部署ID act_re_deployment 的id
      * @param isForce      是否强制删除
      * @return
      */
     @ApiOperation(value = "根据流程定义id 操作挂起激活", notes = "根据流程定义id 操作挂起激活 true 挂起， false 未挂起")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "processDefinedId", value = "流程定义id", dataType = "String", paramType = "path", required = true),
+            @ApiImplicitParam(name = "deploymentId", value = "流程定义id", dataType = "String", paramType = "path", required = true),
             @ApiImplicitParam(name = "isForce", value = "是否级联删除，0是，1否", dataType = "String", paramType = "path", required = true, defaultValue = "1"),
     })
     @DeleteMapping(value = "/deleteProcessDefined/{deploymentId}/{isForce}")
@@ -159,12 +159,7 @@ public class RepositoryApiController {
     }
 
 
-    /**
-     * 获取全部模型
-     *
-     * @param request
-     * @return
-     */
+    @ApiOperation(value = "获取全部模型", notes = "获取全部模型")
     @GetMapping(value = "/flowModels")
     public ResponseData<List<ModelRepresentationVo>> flowModels(HttpServletRequest request) {
         List<ModelRepresentation> modelList = (List<ModelRepresentation>) modelQueryService.getModels("processes", "modifiedDesc", 0, request).getData();
@@ -181,53 +176,31 @@ public class RepositoryApiController {
         return ResponseData.success(modelsVo);
     }
 
-    /**
-     * 获取模型流程历史
-     *
-     * @param modelId
-     * @return
-     */
-    @GetMapping(value = "/getModelHistory/{modelId}")
-    public ResponseData<List<ModelRepresentation>> getModelHistory(@PathVariable(value = "modelId") String modelId) {
-        List<ModelRepresentation> modelHistoryList = (List<ModelRepresentation>) modelHistoryResource.getModelHistoryCollection(modelId, false).getData();
-        // 冒泡排序，更新时间最新的在最上面
-        ModelRepresentation temp;
-        if (modelHistoryList != null) {
-            for (int i = 0; i < modelHistoryList.size(); i++) {
-                for (int j = i + 1; j < modelHistoryList.size(); j++) {
-                    if (modelHistoryList.get(i).getLastUpdated().compareTo(modelHistoryList.get(j).getLastUpdated()) < 0) {
-                        temp = modelHistoryList.get(i);
-                        modelHistoryList.set(i, modelHistoryList.get(j));
-                        modelHistoryList.set(j, temp);
-                    }
-                }
-            }
-        }
-        return ResponseData.success(modelHistoryList);
-    }
 
     /**
      * 流程模型数据
      *
      * @return
      */
+    @ApiOperation(value = "根据流程定义id 获取流程模型数据", notes = "根据流程定义id 获取流程模型数据")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "processDefinedId", value = "流程定义id", dataType = "String", paramType = "path", required = true)
+    })
     @GetMapping(value = "/getFlowModel/{processDefinedId}")
     public ResponseData<List<Process>> getFlowModel(@PathVariable(value = "processDefinedId") String processDefinedId) {
         BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinedId);
         return ResponseData.success(bpmnModel.getProcesses());
     }
 
-    /**
-     * 获取流程定义所有用户任务节点列表
-     *
-     * @param processDefinedKey
-     * @param tenant
-     * @return
-     */
-    @GetMapping(value = "/getProcessDefinedTaskList/{processDefinedKey}/{tenant}")
-    public ResponseData<List<Map<String, Object>>> getProcessDefinedTaskList(@PathVariable(value = "processDefinedKey") String processDefinedKey, @PathVariable(value = "tenant") String tenant) {
+
+    @ApiOperation(value = "获取流程定义所有用户任务节点列表", notes = "获取流程定义所有用户任务节点列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "processDefinedKey", value = "流程定义key", dataType = "String", paramType = "path", required = true)
+    })
+    @GetMapping(value = "/getProcessDefinedTaskList/{processDefinedKey}")
+    public ResponseData<List<Map<String, Object>>> getProcessDefinedTaskList(@PathVariable(value = "processDefinedKey") String processDefinedKey) {
         List<Map<String, Object>> list = new ArrayList<>();
-        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinedKey).processDefinitionTenantId(tenant).latestVersion().singleResult();
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().processDefinitionKey(processDefinedKey).latestVersion().singleResult();
         //获取所有节点信息
         List<Process> processes = repositoryService.getBpmnModel(processDefinition.getId()).getProcesses();
         for (Process process : processes) {
@@ -260,5 +233,6 @@ public class RepositoryApiController {
         }
         return ResponseData.success(list);
     }
+
 
 }
