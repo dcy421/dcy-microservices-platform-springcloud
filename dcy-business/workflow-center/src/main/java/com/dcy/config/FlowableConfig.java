@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 配置主键生成策略
- * @author persie
+ *
+ * @author dcy
  * @date 2018/07/19
  */
 @Configuration
@@ -20,6 +21,6 @@ public class FlowableConfig implements EngineConfigurationConfigurer<SpringProce
         engineConfiguration.setLabelFontName("宋体");
         engineConfiguration.setAnnotationFontName("宋体");
         StrongUuidGenerator uuidGenerator = new StrongUuidGenerator();
-        engineConfiguration.setIdGenerator(uuidGenerator) ;
+        engineConfiguration.setIdGenerator(uuidGenerator);
     }
 }

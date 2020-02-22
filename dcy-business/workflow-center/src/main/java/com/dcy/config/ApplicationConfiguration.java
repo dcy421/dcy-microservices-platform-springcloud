@@ -14,6 +14,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+
 @Configuration
 @EnableConfigurationProperties(FlowableModelerAppProperties.class)
 @ComponentScan(basePackages = {
@@ -25,13 +26,13 @@ import org.springframework.web.servlet.DispatcherServlet;
 //        "org.flowable.ui.common.filter", // IDM 方面的过滤器
         "org.flowable.ui.common.service",
         "org.flowable.ui.common.repository",
-        //
 //        "org.flowable.ui.common.security",//授权方面的都不需要
-        "org.flowable.ui.common.tenant"}, excludeFilters = {
-// 移除 RemoteIdmService
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
-                RemoteIdmService.class),
-}
+        "org.flowable.ui.common.tenant"},
+        excludeFilters = {
+                // 移除 RemoteIdmService
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
+                        RemoteIdmService.class)
+        }
 )
 public class ApplicationConfiguration {
 
@@ -49,7 +50,8 @@ public class ApplicationConfiguration {
     }
 
     @Bean
-    public AppRestResponseFactory appRestResponseFactory(){
+    public AppRestResponseFactory appRestResponseFactory() {
         return new AppRestResponseFactory();
     }
+
 }

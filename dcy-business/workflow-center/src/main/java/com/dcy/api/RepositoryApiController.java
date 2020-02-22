@@ -37,7 +37,7 @@ import java.util.*;
  * @create: 2019-11-05 14:55
  **/
 @RestController
-@RequestMapping("/flowable/repository/api")
+@RequestMapping("/repository")
 @Api(value = "RepositoryApiController", tags = {"部署及定义操作接口"})
 public class RepositoryApiController {
 

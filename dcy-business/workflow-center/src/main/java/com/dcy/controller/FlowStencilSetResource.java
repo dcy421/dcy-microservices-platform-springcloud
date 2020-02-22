@@ -26,8 +26,7 @@ public class FlowStencilSetResource {
     @RequestMapping(value = "/rest/stencil-sets/editor", method = RequestMethod.GET, produces = "application/json")
     public JsonNode getStencilSetForEditor() {
         try {
-            JsonNode stencilNode = objectMapper.readTree(this.getClass().getClassLoader().getResourceAsStream("stencilset/stencilset_bpmn.json"));
-            return stencilNode;
+            return objectMapper.readTree(this.getClass().getClassLoader().getResourceAsStream("stencilset/stencilset_bpmn.json"));
         } catch (Exception e) {
             log.error("Error reading bpmn stencil set json", e);
             throw new InternalServerErrorException("Error reading bpmn stencil set json");
@@ -37,8 +36,7 @@ public class FlowStencilSetResource {
     @RequestMapping(value = "/rest/stencil-sets/cmmneditor", method = RequestMethod.GET, produces = "application/json")
     public JsonNode getCmmnStencilSetForEditor() {
         try {
-            JsonNode stencilNode = objectMapper.readTree(this.getClass().getClassLoader().getResourceAsStream("stencilset/stencilset_cmmn.json"));
-            return stencilNode;
+            return objectMapper.readTree(this.getClass().getClassLoader().getResourceAsStream("stencilset/stencilset_cmmn.json"));
         } catch (Exception e) {
             log.error("Error reading bpmn stencil set json", e);
             throw new InternalServerErrorException("Error reading bpmn stencil set json");

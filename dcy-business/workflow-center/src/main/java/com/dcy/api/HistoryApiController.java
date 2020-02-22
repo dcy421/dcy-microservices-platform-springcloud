@@ -30,7 +30,7 @@ import java.util.List;
  * @Date: 2020-02-21 10:23
  */
 @RestController
-@RequestMapping("/flowable/history/api")
+@RequestMapping("/history")
 @Api(value = "HistoryApiController", tags = {"任务历史操作接口"})
 public class HistoryApiController {
 

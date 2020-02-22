@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.flowable.engine.*;
@@ -28,28 +29,15 @@ import java.util.stream.Collectors;
  * @Description:
  * @Date: 2020-02-21 10:22
  */
+@Slf4j
 @RestController
 @RequestMapping("/flowable/api")
 @Api(value = "FlowableApiController", tags = {"流程api操作接口"})
 public class FlowableApiController {
 
-    public static final Logger logger = LogManager.getLogger(FlowableApiController.class);
-
-    // 流程引擎
-    @Autowired
-    private ProcessEngine processEngine;
-
     // 用户以及组管理服务
     @Autowired
     private IdentityService identityService;
-
-    // 模型服务
-    @Autowired
-    private ModelService modelService;
-
-    // 部署服务
-    @Autowired
-    private RepositoryService repositoryService;
 
     // 流程实例服务
     @Autowired
@@ -73,7 +61,7 @@ public class FlowableApiController {
         identityService.setAuthenticatedUserId(processInstanceDTO.getUserId());
         // 根据流程 ID 启动流程
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceDTO.getProcessDefinitionKey(), processInstanceDTO.getBusinessKey(), processInstanceDTO.getProcessVariables());
-        logger.info("流程启动成功：" + processInstance.getId() + " " + new Date());
+        log.info("流程启动成功：" + processInstance.getId() + " " + new Date());
         return ResponseData.success(new ProcessInstanceVo(processInstance));
     }
 

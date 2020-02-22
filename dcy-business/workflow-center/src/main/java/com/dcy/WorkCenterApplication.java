@@ -11,17 +11,17 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Import;
 
+
 /**
- * 工作流中心
- *
- * @author persie
- * @date 2018/07/19
+ * @Author：dcy
+ * @Description: 启动类
+ * @Date: 2020-02-21 10:17
  */
 @Import(value = {
         // 引入修改的配置
         ApplicationConfiguration.class,
         AppDispatcherServletConfiguration.class
-//        DatabaseConfiguration.class
+//        ,DatabaseConfiguration.class
 })
 @EnableDiscoveryClient
 @EnableApiBootSwagger

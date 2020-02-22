@@ -33,7 +33,7 @@ import java.util.List;
  * @Date: 2020-02-21 10:17
  */
 @RestController
-@RequestMapping("/flowable/diagram/api")
+@RequestMapping("/diagram")
 @Api(value = "DiagramApiController", tags = {"流程图操作接口"})
 public class DiagramApiController {
 

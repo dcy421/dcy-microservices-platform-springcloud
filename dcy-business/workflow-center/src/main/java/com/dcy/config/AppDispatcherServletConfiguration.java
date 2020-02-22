@@ -18,15 +18,16 @@ import
 
 
 @Configuration
-@ComponentScan(value = {"org.flowable.ui.modeler.rest.app",
-}, excludeFilters = {
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
-                EditorUsersResource.class),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
-                EditorGroupsResource.class),
-        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
-                StencilSetResource.class),
-}
+@ComponentScan(
+        value = {"org.flowable.ui.modeler.rest.app"},
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
+                        EditorUsersResource.class),
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
+                        EditorGroupsResource.class),
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value =
+                        StencilSetResource.class)
+        }
 )
 @EnableAsync
 public class AppDispatcherServletConfiguration implements WebMvcRegistrations {

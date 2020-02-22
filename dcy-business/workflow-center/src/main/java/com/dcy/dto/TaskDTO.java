@@ -1,7 +1,11 @@
 package com.dcy.dto;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -10,25 +14,24 @@ import java.util.Map;
  * @Date: 2020-02-22 11:11
  */
 @Data
-public class TaskDTO {
-    /**
-     * 任务id
-     */
+@Accessors(chain = true)
+@ApiModel(value = "TaskDTO对象", description = "流程完成提交对象")
+public class TaskDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @ApiModelProperty(value = "任务id")
     private String taskId;
-    /**
-     * 流程实例id
-     */
+
+    @ApiModelProperty(value = "流程实例id")
     private String processInstanceId;
-    /**
-     * 设置流程完成人
-     */
+
+    @ApiModelProperty(value = "设置流程完成人")
     private String userId;
-    /**
-     * 任务提交意见的内容
-     */
+
+    @ApiModelProperty(value = "任务提交意见的内容")
     private String comment;
-    /**
-     * 流程变量
-     */
+
+    @ApiModelProperty(value = "流程变量")
     private Map<String, Object> variables;
 }

@@ -21,7 +21,7 @@ import java.util.List;
  * @create: 2019-11-05 14:55
  **/
 @RestController
-@RequestMapping("/flowable/runtime/api")
+@RequestMapping("/runtime")
 @Api(value = "RuntimeApiController", tags = {"流程运行操作接口"})
 public class RuntimeApiController {
 
@@ -111,6 +111,15 @@ public class RuntimeApiController {
     }
 
 
+    @ApiOperation(value = "根据任务id判断是否挂起", notes = "根据任务id判断是否挂起 true 挂起， false 未挂起")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "taskId", value = "任务ID", dataType = "String", paramType = "path", required = true)
+    })
+    @GetMapping(value = "/taskIsSuspended/{taskId}")
+    public ResponseData<Boolean> taskIsSuspended(@PathVariable(value = "taskId") String taskId) {
+        Boolean isSuspended = taskService.createTaskQuery().taskId(taskId).singleResult().isSuspended();
+        return ResponseData.success(isSuspended);
+    }
 
 
     @ApiOperation(value = "根据流程实例id判断是否挂起", notes = "根据流程实例id判断是否挂起 true 挂起， false 未挂起")
