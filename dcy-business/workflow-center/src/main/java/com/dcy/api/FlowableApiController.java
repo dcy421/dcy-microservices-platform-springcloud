@@ -83,17 +83,20 @@ public class FlowableApiController {
     })
     @PostMapping("/complete")
     public ResponseData<String> task(@RequestBody TaskDTO taskDTO) {
-        boolean suspended = taskService.createTaskQuery().taskId(taskDTO.getTaskId()).singleResult().isSuspended();
-        if (suspended) {
+        Task task = taskService.createTaskQuery().taskId(taskDTO.getTaskId()).singleResult();
+        if (task.isSuspended()) {
             return ResponseData.error("任务已挂起，无法完成");
+        }
+        if (StrUtil.isBlank(task.getAssignee()) && StrUtil.isBlank(taskDTO.getUserId())) {
+            return ResponseData.error("请设置完成人");
+        }
+        if (StrUtil.isNotBlank(taskDTO.getUserId())) {
+            // 设置完成人
+            taskService.setAssignee(taskDTO.getTaskId(), taskDTO.getUserId());
         }
         if (StrUtil.isNotBlank(taskDTO.getProcessInstanceId()) && StrUtil.isNotBlank(taskDTO.getComment())) {
             // 保存意见
             taskService.addComment(taskDTO.getTaskId(), taskDTO.getProcessInstanceId(), taskDTO.getComment());
-        }
-        if (StrUtil.isNotBlank(taskDTO.getUserId())) {
-            // 设置审核人
-            taskService.setAssignee(taskDTO.getTaskId(), taskDTO.getUserId());
         }
         // 完成任务
         taskService.complete(taskDTO.getTaskId(), taskDTO.getVariables());
