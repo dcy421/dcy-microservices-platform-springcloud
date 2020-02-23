@@ -1,5 +1,7 @@
 package com.dcy.entity;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import lombok.Data;
 import org.flowable.ui.modeler.model.ModelRepresentation;
 
@@ -12,6 +14,7 @@ import org.flowable.ui.modeler.model.ModelRepresentation;
 public class ModelRepresentationVo extends ModelRepresentation {
 
     private Boolean isDeployment = false;
+    private String lastUpdatedDate;
 
     public ModelRepresentationVo() {}
 
@@ -25,6 +28,7 @@ public class ModelRepresentationVo extends ModelRepresentation {
         comment = modelRepresentation.getComment();
         createdBy = modelRepresentation.getCreatedBy();
         lastUpdated = modelRepresentation.getLastUpdated();
+        lastUpdatedDate = DateUtil.format(modelRepresentation.getLastUpdated(), DatePattern.NORM_DATETIME_PATTERN);
         lastUpdatedBy = modelRepresentation.getLastUpdatedBy();
         modelType = modelRepresentation.getModelType();
     }
@@ -39,6 +43,7 @@ public class ModelRepresentationVo extends ModelRepresentation {
         comment = modelRepresentation.getComment();
         createdBy = modelRepresentation.getCreatedBy();
         lastUpdated = modelRepresentation.getLastUpdated();
+        lastUpdatedDate = DateUtil.format(modelRepresentation.getLastUpdated(), DatePattern.NORM_DATETIME_PATTERN);
         lastUpdatedBy = modelRepresentation.getLastUpdatedBy();
         modelType = modelRepresentation.getModelType();
         this.isDeployment = isDeployment;

@@ -71,7 +71,7 @@ public class DiagramApiController {
                 processEngineConfig.getLabelFontName(), processEngineConfig.getAnnotationFontName(), processEngineConfig.getClassLoader(), 1.0, true);
 
         OutputStream out = httpServletResponse.getOutputStream();
-        IoUtil.copy(in, out, IoUtil.DEFAULT_BUFFER_SIZE);
+        IoUtil.copy(in, out);
         IoUtil.close(out);
         IoUtil.close(in);
     }
@@ -117,7 +117,7 @@ public class DiagramApiController {
         InputStream in = diagramGenerator.generateDiagram(bpmnModel, "bmp", highLightedActivitis, flows, processEngineConfig.getActivityFontName(),
                 processEngineConfig.getLabelFontName(), processEngineConfig.getAnnotationFontName(), processEngineConfig.getClassLoader(), 1.0, true);
         OutputStream out = httpServletResponse.getOutputStream();
-        IoUtil.copy(in, out, IoUtil.DEFAULT_BUFFER_SIZE);
+        IoUtil.copy(in, out);
         IoUtil.close(out);
         IoUtil.close(in);
     }
@@ -170,7 +170,7 @@ public class DiagramApiController {
                 processEngineConfig.getLabelFontName(), processEngineConfig.getAnnotationFontName(), processEngineConfig.getClassLoader(), 1.0, true);
 
         OutputStream out = httpServletResponse.getOutputStream();
-        IoUtil.copy(in, out, IoUtil.DEFAULT_BUFFER_SIZE);
+        IoUtil.copy(in, out);
         IoUtil.close(out);
         IoUtil.close(in);
     }

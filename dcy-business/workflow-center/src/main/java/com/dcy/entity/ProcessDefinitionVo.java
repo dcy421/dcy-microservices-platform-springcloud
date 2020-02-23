@@ -45,6 +45,8 @@ public class ProcessDefinitionVo {
 
     private Boolean hasStartFormKey;
 
+    private String deploymentDate;
+
     public ProcessDefinitionVo(){}
 
     public ProcessDefinitionVo(ProcessDefinition processDefinition) {
