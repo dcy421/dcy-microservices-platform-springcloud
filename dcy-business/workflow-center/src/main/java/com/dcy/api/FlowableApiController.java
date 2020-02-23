@@ -96,7 +96,9 @@ public class FlowableApiController {
         }
         if (StrUtil.isNotBlank(taskDTO.getProcessInstanceId()) && StrUtil.isNotBlank(taskDTO.getComment())) {
             // 保存意见
-            taskService.addComment(taskDTO.getTaskId(), taskDTO.getProcessInstanceId(), taskDTO.getComment());
+            taskService.addComment(taskDTO.getTaskId(), taskDTO.getProcessInstanceId(), "taskStatus", taskDTO.getAdopt() ? "success" : "reject");
+            taskService.addComment(taskDTO.getTaskId(), taskDTO.getProcessInstanceId(), "taskMessage", taskDTO.getAdopt() ? "已通过" : "已驳回");
+            taskService.addComment(taskDTO.getTaskId(), taskDTO.getProcessInstanceId(), "taskComment", taskDTO.getComment());
         }
         // 完成任务
         taskService.complete(taskDTO.getTaskId(), taskDTO.getVariables());

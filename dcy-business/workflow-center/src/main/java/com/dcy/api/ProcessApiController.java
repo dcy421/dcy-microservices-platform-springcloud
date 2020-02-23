@@ -2,6 +2,8 @@ package com.dcy.api;
 
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.PageUtil;
+import cn.hutool.core.util.StrUtil;
 import com.dcy.common.model.ResponseData;
 import com.dcy.db.base.model.PageModel;
 import com.dcy.entity.ProcessDefinitionVo;
@@ -18,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author：dcy
@@ -37,19 +41,38 @@ public class ProcessApiController {
     private ManagementService managementService;
 
     @ApiOperation(value = "获取流程列表", notes = "获取流程列表")
-    @GetMapping(value = "/list")
-    public ResponseData<List<ProcessDefinitionVo>> list() {
+    @GetMapping(value = "/page")
+    public ResponseData<Map<String, Object>> list(PageModel pageModel) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM " + managementService.getTableName(ProcessDefinition.class));
+        if (StrUtil.isNotBlank(pageModel.getOrder()) && StrUtil.isNotBlank(pageModel.getSort())) {
+            sql.append(" ORDER BY ")
+                    .append(StrUtil.toUnderlineCase(pageModel.getSort()))
+                    .append(" ")
+                    .append(pageModel.getSort());
+        }
+        // 获取数据总条数
+        int total = repositoryService.createNativeProcessDefinitionQuery().sql(sql.toString()).list().size();
+        // 拼接分页
+        sql.append(" LIMIT ")
+                .append(PageUtil.getStart(pageModel.getCurrent(), pageModel.getSize()))
+                .append(",")
+                .append(pageModel.getSize());
+
         List<ProcessDefinitionVo> list = new ArrayList<>();
-        List<ProcessDefinition> list1 = repositoryService.createProcessDefinitionQuery().list();
-        list1.stream().forEach(processDefinition -> {
+        repositoryService.createNativeProcessDefinitionQuery().sql(sql.toString()).list().stream().forEach(processDefinition -> {
             ProcessDefinitionVo processDefinitionVo = new ProcessDefinitionVo(processDefinition);
             Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(processDefinition.getDeploymentId()).singleResult();
             processDefinitionVo.setDeploymentDate(DateUtil.format(deployment.getDeploymentTime(), DatePattern.NORM_DATETIME_PATTERN));
             list.add(processDefinitionVo);
         });
-        return ResponseData.success(list);
+        Map<String, Object> map = new HashMap<>();
+        map.put("current", pageModel.getCurrent());
+        map.put("pages", PageUtil.totalPage(total, pageModel.getSize()));
+        map.put("records", list);
+        map.put("size", pageModel.getSize());
+        map.put("total", total);
+        return ResponseData.success(map);
     }
-
 
     @ApiOperation(value = "根据流程定义id 操作挂起激活", notes = "根据流程定义id 操作挂起激活 true 挂起， false 未挂起")
     @ApiImplicitParams({

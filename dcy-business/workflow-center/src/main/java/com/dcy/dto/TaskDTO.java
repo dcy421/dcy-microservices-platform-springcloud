@@ -33,4 +33,8 @@ public class TaskDTO implements Serializable {
 
     @ApiModelProperty(value = "流程变量")
     private Map<String, Object> variables;
+
+
+    @ApiModelProperty(value = "是否通过")
+    private Boolean adopt = true;
 }
