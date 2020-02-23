@@ -1,36 +1,25 @@
 package com.dcy.api;
 
-import cn.hutool.core.util.PageUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.dcy.common.model.ResponseData;
-import com.dcy.db.base.model.PageModel;
-import com.dcy.entity.ModelRepresentationVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.bpmn.model.FlowElement;
 import org.flowable.bpmn.model.Process;
 import org.flowable.bpmn.model.UserTask;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.ProcessDefinition;
-import org.flowable.ui.common.model.ResultListDataRepresentation;
-import org.flowable.ui.modeler.domain.Model;
-import org.flowable.ui.modeler.model.ModelRepresentation;
-import org.flowable.ui.modeler.rest.app.ModelBpmnResource;
-import org.flowable.ui.modeler.rest.app.ModelHistoryResource;
-import org.flowable.ui.modeler.service.FlowableModelQueryService;
-import org.flowable.ui.modeler.serviceapi.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -48,7 +37,6 @@ public class RepositoryApiController {
 
     @Autowired
     private RepositoryService repositoryService;
-
 
 
     /**
@@ -82,26 +70,12 @@ public class RepositoryApiController {
             if (flowElements != null) {
                 for (FlowElement flowElement : flowElements) {
                     // 类型为用户节点
-                    if (flowElement instanceof UserTask) {
+                    if (flowElement instanceof UserTask && CollUtil.isNotEmpty(((UserTask) flowElement).getTaskListeners())) {
                         Map<String, Object> map = new HashMap<>();
-                        map.put("key", flowElement.getId());
-                        map.put("name", flowElement.getName());
+                        map.put("taskId", flowElement.getId());
+                        map.put("taskName", flowElement.getName());
                         list.add(map);
                     }
-//                    // 类型为开始节点
-//                    if (flowElement instanceof StartEvent) {
-//                        Map<String, Object> map = new HashMap<>();
-//                        map.put("key", flowElement.getId());
-//                        map.put("name", flowElement.getName());
-//                        list.add(map);
-//                    }
-//                    // 类型为结束节点
-//                    if (flowElement instanceof EndEvent) {
-//                        Map<String, Object> map = new HashMap<>();
-//                        map.put("key", flowElement.getId());
-//                        map.put("name", flowElement.getName());
-//                        list.add(map);
-//                    }
                 }
             }
         }

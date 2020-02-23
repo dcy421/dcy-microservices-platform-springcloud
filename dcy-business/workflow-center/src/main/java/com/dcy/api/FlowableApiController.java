@@ -1,5 +1,6 @@
 package com.dcy.api;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.dcy.common.model.ResponseData;
 import com.dcy.dto.ProcessInstanceDTO;
@@ -10,14 +11,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.flowable.engine.*;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.IdentityService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
 import org.flowable.engine.runtime.Execution;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskInfo;
-import org.flowable.ui.modeler.serviceapi.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,8 +60,15 @@ public class FlowableApiController {
     public ResponseData<ProcessInstanceVo> start(@RequestBody ProcessInstanceDTO processInstanceDTO) {
         // 设置发起人
         identityService.setAuthenticatedUserId(processInstanceDTO.getUserId());
+        Map<String, Object> variables = processInstanceDTO.getVariables();
+        if (CollUtil.isEmpty(variables)){
+            variables = CollUtil.newHashMap();
+            variables.put("businessKey",processInstanceDTO.getBusinessKey());
+        }else{
+            variables.put("businessKey",processInstanceDTO.getBusinessKey());
+        }
         // 根据流程 ID 启动流程
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceDTO.getProcessDefinitionKey(), processInstanceDTO.getBusinessKey(), processInstanceDTO.getVariables());
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceDTO.getProcessDefinitionKey(), processInstanceDTO.getBusinessKey(), variables);
         log.info("流程启动成功：" + processInstance.getId() + " " + new Date());
         return ResponseData.success(new ProcessInstanceVo(processInstance));
     }
