@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>admin-center-api</module>
-        <module>admin-center-client</module>
         <module>admin-center-provider</module>
     </modules>
 

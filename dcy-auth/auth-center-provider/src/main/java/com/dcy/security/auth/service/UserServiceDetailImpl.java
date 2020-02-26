@@ -1,6 +1,6 @@
 package com.dcy.security.auth.service;
 
-import com.dcy.api.dto.AuthUser;
+import com.dcy.api.vo.AuthUser;
 import com.dcy.api.model.SysUserInfo;
 import com.dcy.api.service.SysModuleResourcesRemoteService;
 import com.dcy.api.service.SysUserInfoRemoteService;

@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>auth-center-provider</module>
-        <module>auth-spring-boot-autoconfigure</module>
     </modules>
 
 

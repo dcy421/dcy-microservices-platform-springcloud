@@ -7,6 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author dcy
+ * -javaagent:E:\Installation\skywalking\apache-skywalking-apm-6.6.0\agent\skywalking-agent.jar
+ * -Dskywalking.agent.service_name=monitor-center
  */
 @SpringBootApplication
 @EnableAdminServer

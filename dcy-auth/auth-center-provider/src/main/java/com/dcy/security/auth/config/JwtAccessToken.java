@@ -1,6 +1,6 @@
 package com.dcy.security.auth.config;
 
-import com.dcy.api.dto.AuthUser;
+import com.dcy.api.vo.AuthUser;
 import com.dcy.common.constant.CommonConstant;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;

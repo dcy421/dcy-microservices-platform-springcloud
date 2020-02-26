@@ -1,4 +1,4 @@
-package com.dcy.api.dto;
+package com.dcy.api.vo;
 
 import com.dcy.api.model.SysUserInfo;
 import lombok.Data;

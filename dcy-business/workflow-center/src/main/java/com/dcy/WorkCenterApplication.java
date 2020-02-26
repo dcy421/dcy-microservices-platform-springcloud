@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Import;
  * @Author：dcy
  * @Description: 启动类
  * @Date: 2020-02-21 10:17
+ * -javaagent:E:\Installation\skywalking\apache-skywalking-apm-6.6.0\agent\skywalking-agent.jar
+ * -Dskywalking.agent.service_name=workflow-center
  */
 @Import(value = {
         // 引入修改的配置
