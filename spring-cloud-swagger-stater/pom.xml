@@ -17,6 +17,7 @@
 
     <dependencies>
 
+        <!-- 排除依赖，修改控制台报错-->
         <dependency>
             <groupId>org.minbox.framework</groupId>
             <artifactId>api-boot-starter-swagger</artifactId>

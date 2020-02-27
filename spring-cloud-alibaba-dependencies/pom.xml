@@ -36,6 +36,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Spring Cloud Alibaba -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
@@ -44,7 +45,7 @@
                 <scope>import</scope>
             </dependency>
 
-            <!--ApiBoot版本依赖-->
+            <!--ApiBoot版本依赖 主要使用swagger2 接口文档-->
             <dependency>
                 <groupId>org.minbox.framework</groupId>
                 <artifactId>api-boot-dependencies</artifactId>
@@ -53,6 +54,7 @@
                 <type>pom</type>
             </dependency>
 
+            <!-- druid stater-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid-spring-boot-starter</artifactId>
