@@ -13,7 +13,6 @@
         <module>spring-cloud-alibaba-dependencies</module>
         <module>spring-cloud-alibaba-nacos</module>
         <module>dcy-business</module>
-        <module>spring-cloud-redis-stater</module>
         <module>dcy-auth</module>
         <module>dcy-gateway</module>
         <module>spring-cloud-swagger-stater</module>
@@ -52,11 +51,6 @@
             <dependency>
                 <groupId>com.dcy</groupId>
                 <artifactId>spring-cloud-alibaba-nacos</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dcy</groupId>
-                <artifactId>spring-cloud-redis-stater</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

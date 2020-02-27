@@ -13,23 +13,15 @@
 
 
     <dependencies>
+        <!-- Alibaba Nacos 注册中心和配置中心-->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>spring-cloud-alibaba-nacos</artifactId>
         </dependency>
+        <!-- Swagger2 api文档 -->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>spring-cloud-swagger-stater</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.dcy</groupId>
-            <artifactId>dcy-web-spring-boot-stater</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.dcy</groupId>
-            <artifactId>dcy-log-spring-boot-stater</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- 阿里云oss -->
         <dependency>
@@ -48,6 +40,19 @@
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
             <version>1.26.6</version>
+        </dependency>
+
+        <!-- web封装 -->
+        <dependency>
+            <groupId>com.dcy</groupId>
+            <artifactId>dcy-web-spring-boot-stater</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- 分布式日志封装-->
+        <dependency>
+            <groupId>com.dcy</groupId>
+            <artifactId>dcy-log-spring-boot-stater</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

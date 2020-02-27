@@ -11,36 +11,38 @@
 
     <artifactId>auth-center-provider</artifactId>
 
-
     <dependencies>
+        <!-- Alibaba Nacos 注册中心和配置中心-->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>spring-cloud-alibaba-nacos</artifactId>
         </dependency>
-
+        <!-- Alibaba Sentinel 熔断 限流-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
+        <!-- Swagger2 api文档 -->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>spring-cloud-swagger-stater</artifactId>
         </dependency>
+        <!-- spring boot web stater-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+        <!-- spring boot 心跳 stater-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
+        <!-- spring boot jdbc stater-->
         <dependency>
-            <groupId>com.dcy</groupId>
-            <artifactId>dcy-redis-spring-boot-stater</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
-
+        <!-- spring boot auth2 stater-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
@@ -57,17 +59,32 @@
             <version>${spring-boot.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.dcy</groupId>
-            <artifactId>dcy-log-spring-boot-stater</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
+        <!-- mysql 驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!-- 分布式日志封装-->
+        <dependency>
+            <groupId>com.dcy</groupId>
+            <artifactId>dcy-log-spring-boot-stater</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- redis 封装 + 分布式锁-->
+        <dependency>
+            <groupId>com.dcy</groupId>
+            <artifactId>dcy-redis-spring-boot-stater</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- 公共封装 -->
+        <dependency>
+            <groupId>com.dcy</groupId>
+            <artifactId>dcy-common-spring-boot-stater</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- admin-center 公共类-->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>admin-center-api</artifactId>

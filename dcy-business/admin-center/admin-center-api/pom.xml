@@ -13,11 +13,19 @@
 
 
     <dependencies>
+        <!-- 公共封装 -->
+        <dependency>
+            <groupId>com.dcy</groupId>
+            <artifactId>dcy-common-spring-boot-stater</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- db 公共类封装 -->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>dcy-db-spring-boot-stater</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!-- fegin 封装-->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>dcy-feign-spring-boot-stater</artifactId>

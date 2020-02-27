@@ -2,12 +2,9 @@ package com.dcy.security.auth.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.dcy.api.model.SysUserInfo;
-import com.dcy.api.service.SysUserInfoRemoteService;
 import com.dcy.common.constant.CommonConstant;
 import com.dcy.common.model.ResponseData;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,8 +33,6 @@ public class AuthController {
     @Autowired
     private TokenStore tokenStore;
 
-    @Autowired
-    private SysUserInfoRemoteService sysUserInfoRemoteService;
     /**
      * 重写 /auth/token 方法
      *

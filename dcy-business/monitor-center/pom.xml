@@ -16,21 +16,25 @@
     </properties>
 
     <dependencies>
+        <!-- Alibaba Nacos 注册中心和配置中心-->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>spring-cloud-alibaba-nacos</artifactId>
         </dependency>
+        <!-- spring boot admin server 监控-->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
             <version>${spring-boot-admin.version}</version>
         </dependency>
 
+        <!-- spring boot 心跳 stater-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- 分布式日志封装-->
         <dependency>
             <groupId>com.dcy</groupId>
             <artifactId>dcy-log-spring-boot-stater</artifactId>
