@@ -1,9 +1,9 @@
 package com.dcy.config;
 
+import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.dcy.route.NacosRouteDefinitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.alibaba.nacos.NacosConfigProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

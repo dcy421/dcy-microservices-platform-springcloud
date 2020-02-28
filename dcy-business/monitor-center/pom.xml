@@ -11,10 +11,6 @@
 
     <artifactId>monitor-center</artifactId>
 
-    <properties>
-        <spring-boot-admin.version>2.1.6</spring-boot-admin.version>
-    </properties>
-
     <dependencies>
         <!-- Alibaba Nacos 注册中心和配置中心-->
         <dependency>

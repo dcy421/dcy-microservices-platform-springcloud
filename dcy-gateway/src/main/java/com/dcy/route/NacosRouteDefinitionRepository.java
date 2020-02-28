@@ -2,11 +2,12 @@ package com.dcy.route;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.cloud.nacos.NacosConfigManager;
+import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.alibaba.nacos.NacosConfigProperties;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
@@ -44,7 +45,7 @@ public class NacosRouteDefinitionRepository implements RouteDefinitionRepository
     @Override
     public Flux<RouteDefinition> getRouteDefinitions() {
         try {
-            String content = nacosConfigProperties.configServiceInstance().getConfig(SCG_DATA_ID, SCG_GROUP_ID,5000);
+            String content = new NacosConfigManager(nacosConfigProperties).getConfigService().getConfig(SCG_DATA_ID, SCG_GROUP_ID, 5000);
             List<RouteDefinition> routeDefinitions = getListByStr(content);
             return Flux.fromIterable(routeDefinitions);
         } catch (NacosException e) {
@@ -58,7 +59,7 @@ public class NacosRouteDefinitionRepository implements RouteDefinitionRepository
      */
     private void addListener() {
         try {
-            nacosConfigProperties.configServiceInstance().addListener(SCG_DATA_ID, SCG_GROUP_ID, new Listener() {
+            new NacosConfigManager(nacosConfigProperties).getConfigService().addListener(SCG_DATA_ID, SCG_GROUP_ID, new Listener() {
                 @Override
                 public Executor getExecutor() {
                     return null;

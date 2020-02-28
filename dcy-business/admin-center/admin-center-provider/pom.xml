@@ -25,7 +25,7 @@
         </dependency>
         <!-- Alibaba Sentinel 熔断 限流-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
+            <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
 

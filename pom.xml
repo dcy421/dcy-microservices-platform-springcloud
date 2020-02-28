@@ -25,9 +25,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.1.9.RELEASE</spring-boot.version>
+        <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
         <flowable.version>6.4.1</flowable.version>
+        <spring-boot-admin.version>2.2.2</spring-boot-admin.version>
     </properties>
 
 
