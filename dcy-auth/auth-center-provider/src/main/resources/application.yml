@@ -3,16 +3,16 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_URL:127.0.0.1}:${MYSQL_HOST:3306}/${MYSQL_DB:dcy-microservices-platform}?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=UTC
+    url: jdbc:mysql://${MYSQL_URL:192.168.189.150}:${MYSQL_HOST:3306}/${MYSQL_DB:official-vehicle-microservices}?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&serverTimezone=UTC
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
   redis:
-    host: ${REDIS_HOST:192.168.136.170}
+    host: ${REDIS_HOST:192.168.189.150}
     port: ${REDIS_PORT:6379}
   cloud:
     sentinel:
       transport:
-        dashboard: localhost:8555
+        dashboard: 192.168.136.170:8555
       eager: true
 
 

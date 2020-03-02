@@ -1,13 +1,9 @@
-package com.dcy.api.service.fallback;
+package com.dcy.client.fallback;
 
-import com.dcy.api.InterfaceService;
 import com.dcy.api.model.SysUserInfo;
-import com.dcy.api.service.SysUserInfoRemoteService;
+import com.dcy.client.SysUserInfoClientService;
 import com.dcy.common.model.ResponseData;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Set;
 
@@ -17,7 +13,7 @@ import java.util.Set;
  * @Date: 2019-10-14
  */
 @Component
-public class SysUserInfoRemoteServiceFallback implements SysUserInfoRemoteService {
+public class SysUserInfoClientServiceFallback implements SysUserInfoClientService {
 
 
     @Override

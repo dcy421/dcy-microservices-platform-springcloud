@@ -1,23 +1,16 @@
 spring:
   redis:
-    host: ${REDIS_HOST:192.168.136.170}
+    host: ${REDIS_HOST:192.168.189.150}
     port: ${REDIS_PORT:6379}
   cloud:
     sentinel:
       transport:
-        dashboard: localhost:8555
+        dashboard: localhost:8858
       eager: true
     gateway:
       discovery:
         locator:
           enabled: true
-#      default-filters:
-#      - name: RequestRateLimiter
-#        args:
-#          redis-rate-limiter.replenishRate: 1000  #令牌桶每秒填充平均速率
-#          redis-rate-limiter.burstCapacity: 1000  #令牌桶总容量
-#          rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
-#          key-resolver: "#{@ipAddressKeyResolver}" #SPEL表达式去的对应的bean
       routes:
         - id: auth-center
           uri: lb://auth-center
@@ -64,11 +57,6 @@ spring:
                 name: default
                 fallbackUri: 'forward:/defaultfallback'
 
-dcy:
-  gateway:
-    dynamic-route:
-      enabled: true
-      data-type: nacos
 
 feign:
   sentinel:

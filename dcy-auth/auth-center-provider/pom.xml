@@ -76,7 +76,7 @@
         <!-- admin-center 公共类-->
         <dependency>
             <groupId>com.dcy</groupId>
-            <artifactId>admin-center-api</artifactId>
+            <artifactId>admin-center-client</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

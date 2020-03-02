@@ -14,6 +14,7 @@
     <modules>
         <module>admin-center-api</module>
         <module>admin-center-provider</module>
+        <module>admin-center-client</module>
     </modules>
 
 

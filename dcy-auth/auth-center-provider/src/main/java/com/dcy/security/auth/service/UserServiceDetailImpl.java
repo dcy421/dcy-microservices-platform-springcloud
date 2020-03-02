@@ -1,9 +1,9 @@
 package com.dcy.security.auth.service;
 
-import com.dcy.api.vo.AuthUser;
 import com.dcy.api.model.SysUserInfo;
-import com.dcy.api.service.SysModuleResourcesRemoteService;
-import com.dcy.api.service.SysUserInfoRemoteService;
+import com.dcy.api.vo.AuthUser;
+import com.dcy.client.SysModuleResourcesClientService;
+import com.dcy.client.SysUserInfoClientService;
 import com.dcy.common.constant.CommonConstant;
 import com.dcy.common.model.ResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ import java.util.Set;
 public class UserServiceDetailImpl implements UserDetailsService {
 
     @Autowired
-    private SysUserInfoRemoteService sysUserInfoRemoteService;
+    private SysUserInfoClientService sysUserInfoClientService;
     @Autowired
-    private SysModuleResourcesRemoteService sysModuleResourcesRemoteService;
+    private SysModuleResourcesClientService sysModuleResourcesClientService;
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
@@ -36,13 +36,13 @@ public class UserServiceDetailImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // Basic ZGN5X2FkbWluX2NsaWVudDoxMjM0NTY=
         //查询用户信息
-        ResponseData<SysUserInfo> userInfoByUsername = sysUserInfoRemoteService.getUserInfoByUsername(username);
+        ResponseData<SysUserInfo> userInfoByUsername = sysUserInfoClientService.getUserInfoByUsername(username);
         if (userInfoByUsername.getSuccess()) {
             SysUserInfo sysUserInfo = userInfoByUsername.getData();
             // 查询权限
-            ResponseData<Set<String>> allPermissionByUserId = sysUserInfoRemoteService.getAllPermissionByUserId(sysUserInfo.getUserId());
+            ResponseData<Set<String>> allPermissionByUserId = sysUserInfoClientService.getAllPermissionByUserId(sysUserInfo.getUserId());
             if (allPermissionByUserId.getSuccess()) {
-                ResponseData<List<Map<String, Object>>> moduleResourcesListData = sysModuleResourcesRemoteService.getModuleByUserId(sysUserInfo.getUserId());
+                ResponseData<List<Map<String, Object>>> moduleResourcesListData = sysModuleResourcesClientService.getModuleByUserId(sysUserInfo.getUserId());
                 if (moduleResourcesListData.getSuccess()){
                     // 存到redis中
                     redisTemplate.opsForValue().set(CommonConstant.REDIS_USER_MODULE_LIST_KEY + sysUserInfo.getUserId(), moduleResourcesListData.getData());

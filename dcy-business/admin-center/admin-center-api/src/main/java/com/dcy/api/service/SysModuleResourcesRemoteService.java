@@ -1,9 +1,6 @@
 package com.dcy.api.service;
 
-import com.dcy.api.InterfaceService;
-import com.dcy.api.service.fallback.SysModuleResourcesRemoteServiceFallback;
 import com.dcy.common.model.ResponseData;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -15,7 +12,6 @@ import java.util.Map;
  * @Description:
  * @Date: 2020-02-15 14:36
  */
-@FeignClient(name = InterfaceService.SERVICE_NAME, fallback = SysModuleResourcesRemoteServiceFallback.class)
 public interface SysModuleResourcesRemoteService {
 
     /**
