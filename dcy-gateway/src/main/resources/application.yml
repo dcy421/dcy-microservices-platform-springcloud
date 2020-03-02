@@ -58,6 +58,12 @@ spring:
                 fallbackUri: 'forward:/defaultfallback'
 
 
+dcy:
+  gateway:
+    dynamic-route:
+      enabled: true
+      data-type: nacos
+
 feign:
   sentinel:
     enabled: true
