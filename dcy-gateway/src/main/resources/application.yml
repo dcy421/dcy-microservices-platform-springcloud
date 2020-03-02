@@ -5,7 +5,7 @@ spring:
   cloud:
     sentinel:
       transport:
-        dashboard: localhost:8858
+        dashboard: 192.168.136.170:8858
       eager: true
     gateway:
       discovery:
